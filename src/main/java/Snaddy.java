@@ -41,10 +41,50 @@ public class Snaddy {
                 tasks[taskNumber].markAsNotDone();
                 System.out.println(divider + "      OK, I've marked this task as not done yet:\n"
                         + "        " + tasks[taskNumber] + "\n" + divider);
-            } else {
-                tasks[taskCount] = new Task(input);
+            } else if (input.startsWith("todo ")) {
+                String description = input.substring(5);
+                Task newTask = new ToDo(description);
+                tasks[taskCount] = newTask;
                 taskCount++;
-                System.out.println(divider + "      added: " + input + "\n" + divider);
+                System.out.println(divider + "      Got it. I've added this task:\n"
+                        + "        " + newTask + "\n"
+                        + "      Now you have " + taskCount + " tasks in the list.\n" + divider);
+            } else if (input.startsWith("deadline ")) {
+                String details = input.substring(9);
+                int byIndex = details.indexOf(" /by ");
+                if (byIndex == -1) {
+                    System.out.println(divider + "      Error: Please specify deadline using /by\n"
+                            + "      Example: deadline return book /by Sunday\n" + divider);
+                } else {
+                    String description = details.substring(0, byIndex);
+                    String by = details.substring(byIndex + 5);
+                    Task newTask = new Deadline(description, by);
+                    tasks[taskCount] = newTask;
+                    taskCount++;
+                    System.out.println(divider + "      Got it. I've added this task:\n"
+                            + "        " + newTask + "\n"
+                            + "      Now you have " + taskCount + " tasks in the list.\n" + divider);
+                }
+            } else if (input.startsWith("event ")) {
+                String details = input.substring(6);
+                int fromIndex = details.indexOf(" /from ");
+                int toIndex = details.indexOf(" /to ");
+                if (fromIndex == -1 || toIndex == -1) {
+                    System.out.println(divider + "      Error: Please specify event using /from and /to\n"
+                            + "      Example: event project meeting /from Mon 2pm /to 4pm\n" + divider);
+                } else {
+                    String description = details.substring(0, fromIndex);
+                    String from = details.substring(fromIndex + 7, toIndex);
+                    String to = details.substring(toIndex + 5);
+                    Task newTask = new Event(description, from, to);
+                    tasks[taskCount] = newTask;
+                    taskCount++;
+                    System.out.println(divider + "      Got it. I've added this task:\n"
+                            + "        " + newTask + "\n"
+                            + "      Now you have " + taskCount + " tasks in the list.\n" + divider);
+                }
+            } else {
+                System.out.println(divider + "      I don't understand that command.\n" + divider);
             }
         }
 
