@@ -15,6 +15,8 @@ public class Snaddy {
         System.out.print(logo + "      Hello! I'm Snaddy\n      What can I do for you?\n" + divider);
 
         Scanner scanner = new Scanner(System.in);
+        String[] tasks = new String[100];
+        int taskCount = 0;
         String input = "";
 
         while (!input.equals("bye")) {
@@ -22,8 +24,16 @@ public class Snaddy {
 
             if (input.equals("bye")) {
                 System.out.println(divider + "      " + goodbye + divider);
+            } else if (input.equals("list")) {
+                System.out.println(divider);
+                for (int i = 0; i < taskCount; i++) {
+                    System.out.println("      " + (i + 1) + ". " + tasks[i]);
+                }
+                System.out.println(divider);
             } else {
-                System.out.println(divider + "      " + input + "\n" + divider);
+                tasks[taskCount] = input;
+                taskCount++;
+                System.out.println(divider + "      added: " + input + "\n" + divider);
             }
         }
 
