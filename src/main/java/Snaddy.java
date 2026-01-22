@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Snaddy {
     public static void main(String[] args) {
@@ -15,8 +16,7 @@ public class Snaddy {
         System.out.print(logo + "      Hello! I'm Snaddy\n      What can I do for you?\n" + divider);
 
         Scanner scanner = new Scanner(System.in);
-        Task[] tasks = new Task[100];
-        int taskCount = 0;
+        ArrayList<Task> tasks = new ArrayList<>();
         String input = "";
 
         while (!input.equals("bye")) {
@@ -28,8 +28,8 @@ public class Snaddy {
                 } else if (input.equals("list")) {
                     System.out.println(divider);
                     System.out.println("      Here are the tasks in your list:");
-                    for (int i = 0; i < taskCount; i++) {
-                        System.out.println("      " + (i + 1) + "." + tasks[i]);
+                    for (int i = 0; i < tasks.size(); i++) {
+                        System.out.println("      " + (i + 1) + "." + tasks.get(i));
                     }
                     System.out.println(divider);
                 } else if (input.startsWith("mark ")) {
@@ -37,30 +37,40 @@ public class Snaddy {
                         throw new SnaddyException("SAD!!! Please specify which task to mark.\n"
                                 + "      Usage: mark <task number>");
                     }
-                    int taskNumber = parseTaskNumber(input.substring(5), taskCount);
-                    tasks[taskNumber].markAsDone();
+                    int taskNumber = parseTaskNumber(input.substring(5), tasks.size());
+                    tasks.get(taskNumber).markAsDone();
                     System.out.println(divider + "      Nice! I've marked this task as done:\n"
-                            + "        " + tasks[taskNumber] + "\n" + divider);
+                            + "        " + tasks.get(taskNumber) + "\n" + divider);
                 } else if (input.startsWith("unmark ")) {
                     if (input.trim().length() <= 7) {
                         throw new SnaddyException("SAD!!! Please specify which task to unmark.\n"
                                 + "      Usage: unmark <task number>");
                     }
-                    int taskNumber = parseTaskNumber(input.substring(7), taskCount);
-                    tasks[taskNumber].markAsNotDone();
+                    int taskNumber = parseTaskNumber(input.substring(7), tasks.size());
+                    tasks.get(taskNumber).markAsNotDone();
                     System.out.println(divider + "      OK, I've marked this task as not done yet:\n"
-                            + "        " + tasks[taskNumber] + "\n" + divider);
+                            + "        " + tasks.get(taskNumber) + "\n" + divider);
+                } else if (input.startsWith("delete ")) {
+                    if (input.trim().length() <= 7) {
+                        throw new SnaddyException("SAD!!! Please specify which task to delete.\n"
+                                + "      Usage: delete <task number>");
+                    }
+                    int taskNumber = parseTaskNumber(input.substring(7), tasks.size());
+                    Task deletedTask = tasks.get(taskNumber);
+                    tasks.remove(taskNumber);
+                    System.out.println(divider + "      Noted. I've removed this task:\n"
+                            + "        " + deletedTask + "\n"
+                            + "      Now you have " + tasks.size() + " tasks in the list.\n" + divider);
                 } else if (input.startsWith("todo ")) {
                     String description = input.substring(5).trim();
                     if (description.isEmpty()) {
                         throw new SnaddyException("SAD!!! The description of a todo cannot be empty.");
                     }
                     Task newTask = new ToDo(description);
-                    tasks[taskCount] = newTask;
-                    taskCount++;
+                    tasks.add(newTask);
                     System.out.println(divider + "      Got it. I've added this task:\n"
                             + "        " + newTask + "\n"
-                            + "      Now you have " + taskCount + " tasks in the list.\n" + divider);
+                            + "      Now you have " + tasks.size() + " tasks in the list.\n" + divider);
                 } else if (input.startsWith("deadline ")) {
                     String details = input.substring(9).trim();
                     if (details.isEmpty()) {
@@ -80,11 +90,10 @@ public class Snaddy {
                         throw new SnaddyException("SAD!!! The deadline date/time cannot be empty.");
                     }
                     Task newTask = new Deadline(description, by);
-                    tasks[taskCount] = newTask;
-                    taskCount++;
+                    tasks.add(newTask);
                     System.out.println(divider + "      Got it. I've added this task:\n"
                             + "        " + newTask + "\n"
-                            + "      Now you have " + taskCount + " tasks in the list.\n" + divider);
+                            + "      Now you have " + tasks.size() + " tasks in the list.\n" + divider);
                 } else if (input.startsWith("event ")) {
                     String details = input.substring(6).trim();
                     if (details.isEmpty()) {
@@ -109,16 +118,16 @@ public class Snaddy {
                         throw new SnaddyException("SAD!!! The event end time cannot be empty.");
                     }
                     Task newTask = new Event(description, from, to);
-                    tasks[taskCount] = newTask;
-                    taskCount++;
+                    tasks.add(newTask);
                     System.out.println(divider + "      Got it. I've added this task:\n"
                             + "        " + newTask + "\n"
-                            + "      Now you have " + taskCount + " tasks in the list.\n" + divider);
+                            + "      Now you have " + tasks.size() + " tasks in the list.\n" + divider);
                 } else if (input.trim().equals("todo") || input.trim().equals("deadline")
                         || input.trim().equals("event")) {
                     throw new SnaddyException("SAD!!! The description cannot be empty.\n"
                             + "      Please provide details for your " + input.trim() + ".");
-                } else if (input.trim().equals("mark") || input.trim().equals("unmark")) {
+                } else if (input.trim().equals("mark") || input.trim().equals("unmark")
+                        || input.trim().equals("delete")) {
                     throw new SnaddyException("SAD!!! Please specify which task number.\n"
                             + "      Usage: " + input.trim() + " <task number>");
                 } else {
