@@ -10,8 +10,23 @@ public class Snaddy {
                 + "       /        \\   |  \\/ __ \\_/ /_/ / /_/ |\\___  |\n"
                 + "       /_______  /___|  (____  /\\____ \\____ |/ ____|\n"
                 + "               \\/     \\/     \\/      \\/    \\/\\/     \n";
-        String goodbye = "      Bye. Hope to see you again soon!\n";
+        String goodbye = "Bye. Hope to see you again soon!\n";
 
-        System.out.print(logo + "      Hello! I'm Snaddy\n      What can I do for you?\n" + divider + goodbye);
+        System.out.print(logo + "      Hello! I'm Snaddy\n      What can I do for you?\n" + divider);
+
+        Scanner scanner = new Scanner(System.in);
+        String input = "";
+
+        while (!input.equals("bye")) {
+            input = scanner.nextLine();
+
+            if (input.equals("bye")) {
+                System.out.println(divider + "      " + goodbye + divider);
+            } else {
+                System.out.println(divider + "      " + input + "\n" + divider);
+            }
+        }
+
+        scanner.close();
     }
 }
