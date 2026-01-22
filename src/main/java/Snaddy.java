@@ -15,7 +15,7 @@ public class Snaddy {
         System.out.print(logo + "      Hello! I'm Snaddy\n      What can I do for you?\n" + divider);
 
         Scanner scanner = new Scanner(System.in);
-        String[] tasks = new String[100];
+        Task[] tasks = new Task[100];
         int taskCount = 0;
         String input = "";
 
@@ -26,12 +26,23 @@ public class Snaddy {
                 System.out.println(divider + "      " + goodbye + divider);
             } else if (input.equals("list")) {
                 System.out.println(divider);
+                System.out.println("      Here are the tasks in your list:");
                 for (int i = 0; i < taskCount; i++) {
-                    System.out.println("      " + (i + 1) + ". " + tasks[i]);
+                    System.out.println("      " + (i + 1) + "." + tasks[i]);
                 }
                 System.out.println(divider);
+            } else if (input.startsWith("mark ")) {
+                int taskNumber = Integer.parseInt(input.substring(5)) - 1;
+                tasks[taskNumber].markAsDone();
+                System.out.println(divider + "      Nice! I've marked this task as done:\n"
+                        + "        " + tasks[taskNumber] + "\n" + divider);
+            } else if (input.startsWith("unmark ")) {
+                int taskNumber = Integer.parseInt(input.substring(7)) - 1;
+                tasks[taskNumber].markAsNotDone();
+                System.out.println(divider + "      OK, I've marked this task as not done yet:\n"
+                        + "        " + tasks[taskNumber] + "\n" + divider);
             } else {
-                tasks[taskCount] = input;
+                tasks[taskCount] = new Task(input);
                 taskCount++;
                 System.out.println(divider + "      added: " + input + "\n" + divider);
             }
