@@ -1,13 +1,7 @@
-todo borrow book
-list
-deadline return book /by Sunday
-event project meeting /from Mon 2pm /to 4pm
-deadline do homework /by no idea :-p
+todo read book
+deadline return book /by June 6th
+event project meeting /from Aug 6th 2pm /to Aug 6th 4pm
+todo join  sports club
 mark 1
-list
-unmark 1
-list
-remove 1
-list
-sad
+mark 4
 bye
