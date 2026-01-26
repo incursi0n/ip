@@ -1,8 +1,12 @@
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.io.File;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class Snaddy {
-    private static final String FILE_PATH = ".\\data\\snaddy.txt";
+    private static final String FILE_PATH = "." + File.separator + "data" + File.separator + "snaddy.txt";
 
     public static void main(String[] args) {
         String divider = "      ____________________________________________________________\n";
@@ -21,6 +25,7 @@ public class Snaddy {
         Storage storage = new Storage(FILE_PATH);
         ArrayList<Task> tasks = new ArrayList<>();
 
+        // Load tasks from file
         try {
             tasks = storage.load();
         } catch (SnaddyException e) {
@@ -40,6 +45,27 @@ public class Snaddy {
                     System.out.println("      Here are the tasks in your list:");
                     for (int i = 0; i < tasks.size(); i++) {
                         System.out.println("      " + (i + 1) + "." + tasks.get(i));
+                    }
+                    System.out.println(divider);
+                } else if (input.startsWith("on ")) {
+                    String dateString = input.substring(3).trim();
+                    LocalDate targetDate;
+                    try {
+                        targetDate = LocalDate.parse(dateString);
+                    } catch (DateTimeParseException e) {
+                        throw new SnaddyException("SAD!!! Please provide date in yyyy-mm-dd format.\n"
+                                + "      Example: on 2019-12-02");
+                    }
+                    ArrayList<Task> matchingTasks = findTasksOnDate(tasks, targetDate);
+                    System.out.println(divider);
+                    System.out.println("      Here are the tasks on "
+                            + targetDate.format(DateTimeFormatter.ofPattern("MMM d yyyy")) + ":");
+                    if (matchingTasks.isEmpty()) {
+                        System.out.println("      No tasks found.");
+                    } else {
+                        for (int i = 0; i < matchingTasks.size(); i++) {
+                            System.out.println("      " + (i + 1) + "." + matchingTasks.get(i));
+                        }
                     }
                     System.out.println(divider);
                 } else if (input.startsWith("mark ")) {
@@ -93,7 +119,8 @@ public class Snaddy {
                     int byIndex = details.indexOf(" /by ");
                     if (byIndex == -1) {
                         throw new SnaddyException("SAD!!! Please specify the deadline using /by.\n"
-                                + "      Usage: deadline <description> /by <date/time>");
+                                + "      Usage: deadline <description> /by <date>\n"
+                                + "      Date format: yyyy-mm-dd (e.g., 2019-12-02)");
                     }
                     String description = details.substring(0, byIndex).trim();
                     String by = details.substring(byIndex + 5).trim();
@@ -118,7 +145,8 @@ public class Snaddy {
                     int toIndex = details.indexOf(" /to ");
                     if (fromIndex == -1 || toIndex == -1) {
                         throw new SnaddyException("SAD!!! Please specify the event using /from and /to.\n"
-                                + "      Usage: event <description> /from <start time> /to <end time>");
+                                + "      Usage: event <description> /from <date> /to <date>\n"
+                                + "      Date format: yyyy-mm-dd (e.g., 2019-12-02)");
                     }
                     String description = details.substring(0, fromIndex).trim();
                     String from = details.substring(fromIndex + 7, toIndex).trim();
@@ -172,5 +200,26 @@ public class Snaddy {
         } catch (NumberFormatException e) {
             throw new SnaddyException("SAD!!! Please provide a valid task number.");
         }
+    }
+
+    private static ArrayList<Task> findTasksOnDate(ArrayList<Task> tasks, LocalDate date) {
+        ArrayList<Task> matchingTasks = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task instanceof Deadline) {
+                Deadline deadline = (Deadline) task;
+                if (deadline.getDate() != null && deadline.getDate().equals(date)) {
+                    matchingTasks.add(task);
+                }
+            } else if (task instanceof Event) {
+                Event event = (Event) task;
+                if (event.getStartDate() != null && event.getEndDate() != null) {
+                    if ((date.equals(event.getStartDate()) || date.equals(event.getEndDate())
+                            || (date.isAfter(event.getStartDate()) && date.isBefore(event.getEndDate())))) {
+                        matchingTasks.add(task);
+                    }
+                }
+            }
+        }
+        return matchingTasks;
     }
 }
