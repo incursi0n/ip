@@ -2,6 +2,8 @@ import java.util.Scanner;
 import java.util.ArrayList;
 
 public class Snaddy {
+    private static final String FILE_PATH = ".\\data\\snaddy.txt";
+
     public static void main(String[] args) {
         String divider = "      ____________________________________________________________\n";
         String logo = divider
@@ -16,7 +18,15 @@ public class Snaddy {
         System.out.print(logo + "      Hello! I'm Snaddy\n      What can I do for you?\n" + divider);
 
         Scanner scanner = new Scanner(System.in);
+        Storage storage = new Storage(FILE_PATH);
         ArrayList<Task> tasks = new ArrayList<>();
+
+        try {
+            tasks = storage.load();
+        } catch (SnaddyException e) {
+            System.out.println(divider + "      " + e.getMessage() + "\n" + divider);
+        }
+
         String input = "";
 
         while (!input.equals("bye")) {
@@ -39,6 +49,7 @@ public class Snaddy {
                     }
                     int taskNumber = parseTaskNumber(input.substring(5), tasks.size());
                     tasks.get(taskNumber).markAsDone();
+                    storage.save(tasks);
                     System.out.println(divider + "      Nice! I've marked this task as done:\n"
                             + "        " + tasks.get(taskNumber) + "\n" + divider);
                 } else if (input.startsWith("unmark ")) {
@@ -48,6 +59,7 @@ public class Snaddy {
                     }
                     int taskNumber = parseTaskNumber(input.substring(7), tasks.size());
                     tasks.get(taskNumber).markAsNotDone();
+                    storage.save(tasks);
                     System.out.println(divider + "      OK, I've marked this task as not done yet:\n"
                             + "        " + tasks.get(taskNumber) + "\n" + divider);
                 } else if (input.startsWith("delete ")) {
@@ -58,6 +70,7 @@ public class Snaddy {
                     int taskNumber = parseTaskNumber(input.substring(7), tasks.size());
                     Task deletedTask = tasks.get(taskNumber);
                     tasks.remove(taskNumber);
+                    storage.save(tasks);
                     System.out.println(divider + "      Noted. I've removed this task:\n"
                             + "        " + deletedTask + "\n"
                             + "      Now you have " + tasks.size() + " tasks in the list.\n" + divider);
@@ -68,6 +81,7 @@ public class Snaddy {
                     }
                     Task newTask = new ToDo(description);
                     tasks.add(newTask);
+                    storage.save(tasks);
                     System.out.println(divider + "      Got it. I've added this task:\n"
                             + "        " + newTask + "\n"
                             + "      Now you have " + tasks.size() + " tasks in the list.\n" + divider);
@@ -91,6 +105,7 @@ public class Snaddy {
                     }
                     Task newTask = new Deadline(description, by);
                     tasks.add(newTask);
+                    storage.save(tasks);
                     System.out.println(divider + "      Got it. I've added this task:\n"
                             + "        " + newTask + "\n"
                             + "      Now you have " + tasks.size() + " tasks in the list.\n" + divider);
@@ -119,6 +134,7 @@ public class Snaddy {
                     }
                     Task newTask = new Event(description, from, to);
                     tasks.add(newTask);
+                    storage.save(tasks);
                     System.out.println(divider + "      Got it. I've added this task:\n"
                             + "        " + newTask + "\n"
                             + "      Now you have " + tasks.size() + " tasks in the list.\n" + divider);
