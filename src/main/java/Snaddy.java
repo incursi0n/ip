@@ -1,225 +1,47 @@
-import java.util.Scanner;
-import java.util.ArrayList;
 import java.io.File;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 
 public class Snaddy {
     private static final String FILE_PATH = "." + File.separator + "data" + File.separator + "snaddy.txt";
 
-    public static void main(String[] args) {
-        String divider = "      ____________________________________________________________\n";
-        String logo = divider
-                + "       _________                  .___  .___      \n"
-                + "      /   _____/ ____ _____     __| _/__| _/__.__.\n"
-                + "      \\_____  \\ /    \\\\__  \\   / __ |/ __ <   |  |\n"
-                + "       /        \\   |  \\/ __ \\_/ /_/ / /_/ |\\___  |\n"
-                + "       /_______  /___|  (____  /\\____ \\____ |/ ____|\n"
-                + "               \\/     \\/     \\/      \\/    \\/\\/     \n";
-        String goodbye = "Bye. Hope to see you again soon!\n";
+    private Storage storage;
+    private TaskList tasks;
+    private Ui ui;
 
-        System.out.print(logo + "      Hello! I'm Snaddy\n      What can I do for you?\n" + divider);
-
-        Scanner scanner = new Scanner(System.in);
-        Storage storage = new Storage(FILE_PATH);
-        ArrayList<Task> tasks = new ArrayList<>();
-
-        // Load tasks from file
+    public Snaddy(String filePath) {
+        ui = new Ui();
+        storage = new Storage(filePath);
         try {
-            tasks = storage.load();
+            tasks = new TaskList(storage.load());
         } catch (SnaddyException e) {
-            System.out.println(divider + "      " + e.getMessage() + "\n" + divider);
+            ui.showLine();
+            ui.showLoadingError();
+            ui.showLine();
+            tasks = new TaskList();
         }
+    }
 
-        String input = "";
-
-        while (!input.equals("bye")) {
-            input = scanner.nextLine();
-
+    public void run() {
+        ui.showWelcome();
+        boolean isExit = false;
+        while (!isExit) {
             try {
-                if (input.equals("bye")) {
-                    System.out.println(divider + "      " + goodbye + divider);
-                } else if (input.equals("list")) {
-                    System.out.println(divider);
-                    System.out.println("      Here are the tasks in your list:");
-                    for (int i = 0; i < tasks.size(); i++) {
-                        System.out.println("      " + (i + 1) + "." + tasks.get(i));
-                    }
-                    System.out.println(divider);
-                } else if (input.startsWith("on ")) {
-                    String dateString = input.substring(3).trim();
-                    LocalDate targetDate;
-                    try {
-                        targetDate = LocalDate.parse(dateString);
-                    } catch (DateTimeParseException e) {
-                        throw new SnaddyException("SAD!!! Please provide date in yyyy-mm-dd format.\n"
-                                + "      Example: on 2019-12-02");
-                    }
-                    ArrayList<Task> matchingTasks = findTasksOnDate(tasks, targetDate);
-                    System.out.println(divider);
-                    System.out.println("      Here are the tasks on "
-                            + targetDate.format(DateTimeFormatter.ofPattern("MMM d yyyy")) + ":");
-                    if (matchingTasks.isEmpty()) {
-                        System.out.println("      No tasks found.");
-                    } else {
-                        for (int i = 0; i < matchingTasks.size(); i++) {
-                            System.out.println("      " + (i + 1) + "." + matchingTasks.get(i));
-                        }
-                    }
-                    System.out.println(divider);
-                } else if (input.startsWith("mark ")) {
-                    if (input.trim().length() <= 5) {
-                        throw new SnaddyException("SAD!!! Please specify which task to mark.\n"
-                                + "      Usage: mark <task number>");
-                    }
-                    int taskNumber = parseTaskNumber(input.substring(5), tasks.size());
-                    tasks.get(taskNumber).markAsDone();
-                    storage.save(tasks);
-                    System.out.println(divider + "      Nice! I've marked this task as done:\n"
-                            + "        " + tasks.get(taskNumber) + "\n" + divider);
-                } else if (input.startsWith("unmark ")) {
-                    if (input.trim().length() <= 7) {
-                        throw new SnaddyException("SAD!!! Please specify which task to unmark.\n"
-                                + "      Usage: unmark <task number>");
-                    }
-                    int taskNumber = parseTaskNumber(input.substring(7), tasks.size());
-                    tasks.get(taskNumber).markAsNotDone();
-                    storage.save(tasks);
-                    System.out.println(divider + "      OK, I've marked this task as not done yet:\n"
-                            + "        " + tasks.get(taskNumber) + "\n" + divider);
-                } else if (input.startsWith("delete ")) {
-                    if (input.trim().length() <= 7) {
-                        throw new SnaddyException("SAD!!! Please specify which task to delete.\n"
-                                + "      Usage: delete <task number>");
-                    }
-                    int taskNumber = parseTaskNumber(input.substring(7), tasks.size());
-                    Task deletedTask = tasks.get(taskNumber);
-                    tasks.remove(taskNumber);
-                    storage.save(tasks);
-                    System.out.println(divider + "      Noted. I've removed this task:\n"
-                            + "        " + deletedTask + "\n"
-                            + "      Now you have " + tasks.size() + " tasks in the list.\n" + divider);
-                } else if (input.startsWith("todo ")) {
-                    String description = input.substring(5).trim();
-                    if (description.isEmpty()) {
-                        throw new SnaddyException("SAD!!! The description of a todo cannot be empty.");
-                    }
-                    Task newTask = new ToDo(description);
-                    tasks.add(newTask);
-                    storage.save(tasks);
-                    System.out.println(divider + "      Got it. I've added this task:\n"
-                            + "        " + newTask + "\n"
-                            + "      Now you have " + tasks.size() + " tasks in the list.\n" + divider);
-                } else if (input.startsWith("deadline ")) {
-                    String details = input.substring(9).trim();
-                    if (details.isEmpty()) {
-                        throw new SnaddyException("SAD!!! The description of a deadline cannot be empty.");
-                    }
-                    int byIndex = details.indexOf(" /by ");
-                    if (byIndex == -1) {
-                        throw new SnaddyException("SAD!!! Please specify the deadline using /by.\n"
-                                + "      Usage: deadline <description> /by <date>\n"
-                                + "      Date format: yyyy-mm-dd (e.g., 2019-12-02)");
-                    }
-                    String description = details.substring(0, byIndex).trim();
-                    String by = details.substring(byIndex + 5).trim();
-                    if (description.isEmpty()) {
-                        throw new SnaddyException("SAD!!! The description of a deadline cannot be empty.");
-                    }
-                    if (by.isEmpty()) {
-                        throw new SnaddyException("SAD!!! The deadline date/time cannot be empty.");
-                    }
-                    Task newTask = new Deadline(description, by);
-                    tasks.add(newTask);
-                    storage.save(tasks);
-                    System.out.println(divider + "      Got it. I've added this task:\n"
-                            + "        " + newTask + "\n"
-                            + "      Now you have " + tasks.size() + " tasks in the list.\n" + divider);
-                } else if (input.startsWith("event ")) {
-                    String details = input.substring(6).trim();
-                    if (details.isEmpty()) {
-                        throw new SnaddyException("SAD!!! The description of an event cannot be empty.");
-                    }
-                    int fromIndex = details.indexOf(" /from ");
-                    int toIndex = details.indexOf(" /to ");
-                    if (fromIndex == -1 || toIndex == -1) {
-                        throw new SnaddyException("SAD!!! Please specify the event using /from and /to.\n"
-                                + "      Usage: event <description> /from <date> /to <date>\n"
-                                + "      Date format: yyyy-mm-dd (e.g., 2019-12-02)");
-                    }
-                    String description = details.substring(0, fromIndex).trim();
-                    String from = details.substring(fromIndex + 7, toIndex).trim();
-                    String to = details.substring(toIndex + 5).trim();
-                    if (description.isEmpty()) {
-                        throw new SnaddyException("SAD!!! The description of an event cannot be empty.");
-                    }
-                    if (from.isEmpty()) {
-                        throw new SnaddyException("SAD!!! The event start time cannot be empty.");
-                    }
-                    if (to.isEmpty()) {
-                        throw new SnaddyException("SAD!!! The event end time cannot be empty.");
-                    }
-                    Task newTask = new Event(description, from, to);
-                    tasks.add(newTask);
-                    storage.save(tasks);
-                    System.out.println(divider + "      Got it. I've added this task:\n"
-                            + "        " + newTask + "\n"
-                            + "      Now you have " + tasks.size() + " tasks in the list.\n" + divider);
-                } else if (input.trim().equals("todo") || input.trim().equals("deadline")
-                        || input.trim().equals("event")) {
-                    throw new SnaddyException("SAD!!! The description cannot be empty.\n"
-                            + "      Please provide details for your " + input.trim() + ".");
-                } else if (input.trim().equals("mark") || input.trim().equals("unmark")
-                        || input.trim().equals("delete")) {
-                    throw new SnaddyException("SAD!!! Please specify which task number.\n"
-                            + "      Usage: " + input.trim() + " <task number>");
-                } else {
-                    throw new SnaddyException("SAD!!! I'm sorry, but I don't know what that means :-(");
-                }
+                String fullCommand = ui.readCommand();
+                ui.showLine();
+                Command c = Parser.parse(fullCommand);
+                c.execute(tasks, ui, storage);
+                isExit = c.isExit();
             } catch (SnaddyException e) {
-                System.out.println(divider + "      " + e.getMessage() + "\n" + divider);
-            } catch (NumberFormatException e) {
-                System.out.println(divider + "      SAD!!! Please provide a valid task number.\n" + divider);
+                ui.showError(e.getMessage());
             } catch (Exception e) {
-                System.out.println(divider + "      SAD!!! An error occurred: " + e.getMessage() + "\n" + divider);
+                ui.showError("SAD!!! An error occurred: " + e.getMessage());
+            } finally {
+                ui.showLine();
             }
         }
-
-        scanner.close();
+        ui.close();
     }
 
-    private static int parseTaskNumber(String input, int taskCount) throws SnaddyException {
-        try {
-            int taskNumber = Integer.parseInt(input.trim()) - 1;
-            if (taskNumber < 0 || taskNumber >= taskCount) {
-                throw new SnaddyException("SAD!!! Task number " + (taskNumber + 1)
-                        + " does not exist. You have " + taskCount + " task(s) in your list.");
-            }
-            return taskNumber;
-        } catch (NumberFormatException e) {
-            throw new SnaddyException("SAD!!! Please provide a valid task number.");
-        }
-    }
-
-    private static ArrayList<Task> findTasksOnDate(ArrayList<Task> tasks, LocalDate date) {
-        ArrayList<Task> matchingTasks = new ArrayList<>();
-        for (Task task : tasks) {
-            if (task instanceof Deadline) {
-                Deadline deadline = (Deadline) task;
-                if (deadline.getDate() != null && deadline.getDate().equals(date)) {
-                    matchingTasks.add(task);
-                }
-            } else if (task instanceof Event) {
-                Event event = (Event) task;
-                if (event.getStartDate() != null && event.getEndDate() != null) {
-                    if ((date.equals(event.getStartDate()) || date.equals(event.getEndDate())
-                            || (date.isAfter(event.getStartDate()) && date.isBefore(event.getEndDate())))) {
-                        matchingTasks.add(task);
-                    }
-                }
-            }
-        }
-        return matchingTasks;
+    public static void main(String[] args) {
+        new Snaddy(FILE_PATH).run();
     }
 }
