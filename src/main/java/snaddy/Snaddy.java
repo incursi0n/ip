@@ -1,3 +1,12 @@
+package snaddy;
+
+import snaddy.command.Command;
+import snaddy.exception.SnaddyException;
+import snaddy.util.Parser;
+import snaddy.util.Storage;
+import snaddy.util.TaskList;
+import snaddy.util.Ui;
+
 import java.io.File;
 
 public class Snaddy {

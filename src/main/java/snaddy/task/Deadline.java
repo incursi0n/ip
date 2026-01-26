@@ -1,3 +1,5 @@
+package snaddy.task;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -16,7 +18,7 @@ public class Deadline extends Task {
         try {
             return LocalDate.parse(dateString);
         } catch (DateTimeParseException e) {
-            return null; // Not a valid date format, treat as string
+            return null;
         }
     }
 
@@ -29,6 +31,10 @@ public class Deadline extends Task {
 
     public LocalDate getDate() {
         return date;
+    }
+
+    public String getBy() {
+        return by;
     }
 
     @Override

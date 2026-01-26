@@ -1,7 +1,15 @@
-public class MarkCommand extends Command {
+package snaddy.command;
+
+import snaddy.exception.SnaddyException;
+import snaddy.task.Task;
+import snaddy.util.Storage;
+import snaddy.util.TaskList;
+import snaddy.util.Ui;
+
+public class DeleteCommand extends Command {
     private int taskIndex;
 
-    public MarkCommand(int taskIndex) {
+    public DeleteCommand(int taskIndex) {
         this.taskIndex = taskIndex;
     }
 
@@ -11,10 +19,9 @@ public class MarkCommand extends Command {
             throw new SnaddyException("SAD!!! Task number " + (taskIndex + 1)
                     + " does not exist. You have " + tasks.size() + " task(s) in your list.");
         }
-        Task task = tasks.get(taskIndex);
-        task.markAsDone();
+        Task deletedTask = tasks.remove(taskIndex);
         storage.save(tasks.getTasks());
-        ui.showTaskMarked(task);
+        ui.showTaskDeleted(deletedTask, tasks.size());
     }
 
     @Override

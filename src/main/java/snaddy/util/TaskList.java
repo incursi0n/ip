@@ -1,3 +1,9 @@
+package snaddy.util;
+
+import snaddy.task.Deadline;
+import snaddy.task.Event;
+import snaddy.task.Task;
+
 import java.util.ArrayList;
 import java.time.LocalDate;
 
