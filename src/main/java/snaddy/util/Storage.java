@@ -1,3 +1,11 @@
+package snaddy.util;
+
+import snaddy.exception.SnaddyException;
+import snaddy.task.Deadline;
+import snaddy.task.Event;
+import snaddy.task.Task;
+import snaddy.task.ToDo;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -15,13 +23,11 @@ public class Storage {
         ArrayList<Task> tasks = new ArrayList<>();
         File file = new File(filePath);
 
-        // Create directory if it doesn't exist
         File directory = file.getParentFile();
         if (directory != null && !directory.exists()) {
             directory.mkdirs();
         }
 
-        // If file doesn't exist, return empty list
         if (!file.exists()) {
             return tasks;
         }
@@ -103,7 +109,7 @@ public class Storage {
 
     private String formatTask(Task task) {
         String type;
-        String isDone = task.isDone ? "1" : "0";
+        String isDone = task.isDone() ? "1" : "0";
         String description = task.getDescription();
         StringBuilder formatted = new StringBuilder();
 
@@ -114,13 +120,13 @@ public class Storage {
             type = "D";
             Deadline deadline = (Deadline) task;
             formatted.append(type).append(" | ").append(isDone).append(" | ")
-                    .append(description).append(" | ").append(deadline.by);
+                    .append(description).append(" | ").append(deadline.getBy());  // Changed
         } else if (task instanceof Event) {
             type = "E";
             Event event = (Event) task;
             formatted.append(type).append(" | ").append(isDone).append(" | ")
-                    .append(description).append(" | ").append(event.from)
-                    .append(" | ").append(event.to);
+                    .append(description).append(" | ").append(event.getFrom())  // Changed
+                    .append(" | ").append(event.getTo());  // Changed
         }
 
         return formatted.toString();

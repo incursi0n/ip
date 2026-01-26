@@ -1,3 +1,7 @@
+package snaddy.util;
+
+import snaddy.task.Task;
+
 import java.util.Scanner;
 
 public class Ui {

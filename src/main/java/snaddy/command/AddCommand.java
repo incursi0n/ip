@@ -1,3 +1,11 @@
+package snaddy.command;
+
+import snaddy.exception.SnaddyException;
+import snaddy.task.Task;
+import snaddy.util.Storage;
+import snaddy.util.TaskList;
+import snaddy.util.Ui;
+
 public class AddCommand extends Command {
     private Task task;
 
