@@ -137,10 +137,28 @@ public class Ui {
     }
 
     /**
+<<<<<<< HEAD
      * Reads a command from the user.
      *
      * @return The command string entered by the user.
      */
+=======
+     * Displays tasks whose descriptions match a keyword search.
+     *
+     * @param matchingTasks The TaskList containing matching tasks.
+     */
+    public void showMatchingTasks(TaskList matchingTasks) {
+        System.out.println("      Here are the matching tasks in your list:");
+        if (matchingTasks.size() == 0) {
+            System.out.println("      No tasks found.");
+        } else {
+            for (int i = 0; i < matchingTasks.size(); i++) {
+                System.out.println("      " + (i + 1) + "." + matchingTasks.get(i));
+            }
+        }
+    }
+
+>>>>>>> branch-Level-9
     public String readCommand() {
         return scanner.nextLine();
     }

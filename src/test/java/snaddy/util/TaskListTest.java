@@ -161,4 +161,26 @@ public class TaskListTest {
         TaskList result = taskList.findTasksOnDate(targetDate);
         assertEquals(0, result.size());
     }
+
+    @Test
+    public void findTasksByKeyword_emptyList_returnsEmptyList() {
+        TaskList result = taskList.findTasksByKeyword("book");
+        assertEquals(0, result.size());
+    }
+
+    @Test
+    public void findTasksByKeyword_matchesDescription_caseInsensitive() {
+        Task todo = new ToDo("read book");
+        Task deadline = new Deadline("return Book", "2024-01-15");
+        Task other = new ToDo("buy groceries");
+
+        taskList.add(todo);
+        taskList.add(deadline);
+        taskList.add(other);
+
+        TaskList result = taskList.findTasksByKeyword("bOoK");
+        assertEquals(2, result.size());
+        assertTrue(result.getTasks().contains(todo));
+        assertTrue(result.getTasks().contains(deadline));
+    }
 }

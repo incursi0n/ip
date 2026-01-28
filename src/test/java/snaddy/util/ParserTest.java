@@ -175,6 +175,19 @@ public class ParserTest {
     }
 
     @Test
+    public void parse_findCommandWithKeyword_returnsFindCommand() throws SnaddyException {
+        Command command = Parser.parse("find book");
+        assertTrue(command instanceof FindCommand);
+        FindCommand findCommand = (FindCommand) command;
+        assertEquals("book", findCommand.getKeyword());
+    }
+
+    @Test
+    public void parse_findCommandWithoutKeyword_throwsException() {
+        assertThrows(SnaddyException.class, () -> Parser.parse("find"));
+    }
+
+    @Test
     public void parse_unknownCommand_throwsException() {
         assertThrows(SnaddyException.class, () -> Parser.parse("unknown"));
     }

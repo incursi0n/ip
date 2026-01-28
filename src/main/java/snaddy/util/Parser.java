@@ -46,6 +46,11 @@ public class Parser {
             return parseEventCommand(arguments);
         case "on":
             return parseOnCommand(arguments);
+<<<<<<< HEAD
+=======
+        case "find":
+            return parseFindCommand(arguments);
+>>>>>>> branch-Level-9
         default:
             throw new SnaddyException("SAD!!! I'm sorry, but I don't know what that means :-(");
         }
@@ -168,5 +173,20 @@ public class Parser {
             throw new SnaddyException("SAD!!! Please provide date in yyyy-mm-dd format.\n"
                     + "      Example: on 2019-12-02");
         }
+    }
+
+    /**
+     * Parses a find command and creates the corresponding FindCommand.
+     *
+     * @param arguments The arguments string containing the keyword.
+     * @return A FindCommand with the parsed keyword.
+     * @throws SnaddyException If the keyword is empty.
+     */
+    private static Command parseFindCommand(String arguments) throws SnaddyException {
+        String keyword = arguments.trim();
+        if (keyword.isEmpty()) {
+            throw new SnaddyException("SAD!!! Please specify a keyword to find.");
+        }
+        return new FindCommand(keyword);
     }
 }

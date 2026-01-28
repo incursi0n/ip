@@ -6,6 +6,7 @@ import snaddy.task.Task;
 
 import java.util.ArrayList;
 import java.time.LocalDate;
+import java.util.Locale;
 
 /**
  * Represents a list of tasks with operations to manage them.
@@ -101,6 +102,23 @@ public class TaskList {
                         matchingTasks.add(task);
                     }
                 }
+            }
+        }
+        return new TaskList(matchingTasks);
+    }
+
+    /**
+     * Finds and returns all tasks whose descriptions contain the specified keyword (case-insensitive).
+     *
+     * @param keyword The keyword to search for.
+     * @return A new TaskList containing all matching tasks.
+     */
+    public TaskList findTasksByKeyword(String keyword) {
+        String normalizedKeyword = keyword.toLowerCase(Locale.ROOT);
+        ArrayList<Task> matchingTasks = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task.getDescription().toLowerCase(Locale.ROOT).contains(normalizedKeyword)) {
+                matchingTasks.add(task);
             }
         }
         return new TaskList(matchingTasks);
