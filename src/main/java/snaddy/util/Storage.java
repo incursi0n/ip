@@ -12,13 +12,29 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Handles loading and saving of tasks to/from a file.
+ * Manages file I/O operations and task serialization/deserialization.
+ */
 public class Storage {
     private String filePath;
 
+    /**
+     * Constructs a Storage instance with the specified file path.
+     *
+     * @param filePath The path to the file where tasks are stored.
+     */
     public Storage(String filePath) {
         this.filePath = filePath;
     }
 
+    /**
+     * Loads tasks from the file specified in the file path.
+     * Creates the directory and file if they do not exist.
+     *
+     * @return An ArrayList of Task objects loaded from the file.
+     * @throws SnaddyException If an error occurs while reading from the file.
+     */
     public ArrayList<Task> load() throws SnaddyException {
         ArrayList<Task> tasks = new ArrayList<>();
         File file = new File(filePath);
@@ -49,6 +65,12 @@ public class Storage {
         return tasks;
     }
 
+    /**
+     * Parses a single line from the file into a Task object.
+     *
+     * @param line The line to parse in the format "type | isDone | description | ...".
+     * @return The parsed Task object, or null if parsing fails.
+     */
     private Task parseTask(String line) {
         try {
             String[] parts = line.split(" \\| ");
@@ -89,6 +111,13 @@ public class Storage {
         }
     }
 
+    /**
+     * Saves the given list of tasks to the file specified in the file path.
+     * Creates the directory and file if they do not exist.
+     *
+     * @param tasks The list of tasks to be saved.
+     * @throws SnaddyException If an error occurs while writing to the file.
+     */
     public void save(ArrayList<Task> tasks) throws SnaddyException {
         try {
             File file = new File(filePath);
@@ -107,6 +136,12 @@ public class Storage {
         }
     }
 
+    /**
+     * Formats a Task object into a string representation for file storage.
+     *
+     * @param task The task to format.
+     * @return A formatted string representation of the task.
+     */
     private String formatTask(Task task) {
         String type;
         String isDone = task.isDone() ? "1" : "0";

@@ -9,8 +9,19 @@ import snaddy.task.ToDo;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
+/**
+ * Parses user input strings into Command objects.
+ * Handles parsing of all command types and their arguments.
+ */
 public class Parser {
 
+    /**
+     * Parses a full command string and returns the corresponding Command object.
+     *
+     * @param fullCommand The full command string entered by the user.
+     * @return A Command object corresponding to the parsed command.
+     * @throws SnaddyException If the command is invalid or arguments are malformed.
+     */
     public static Command parse(String fullCommand) throws SnaddyException {
         String[] parts = fullCommand.split(" ", 2);
         String commandWord = parts[0].toLowerCase();
@@ -40,6 +51,13 @@ public class Parser {
         }
     }
 
+    /**
+     * Parses a task number from the command arguments.
+     *
+     * @param arguments The arguments string containing the task number.
+     * @return The zero-based index of the task.
+     * @throws SnaddyException If the arguments are empty or not a valid number.
+     */
     private static int parseTaskNumber(String arguments) throws SnaddyException {
         if (arguments.trim().isEmpty()) {
             throw new SnaddyException("SAD!!! Please specify a task number.");
@@ -51,6 +69,13 @@ public class Parser {
         }
     }
 
+    /**
+     * Parses a todo command and creates the corresponding AddCommand.
+     *
+     * @param arguments The arguments string containing the todo description.
+     * @return An AddCommand with a ToDo task.
+     * @throws SnaddyException If the description is empty.
+     */
     private static Command parseTodoCommand(String arguments) throws SnaddyException {
         String description = arguments.trim();
         if (description.isEmpty()) {
@@ -59,6 +84,13 @@ public class Parser {
         return new AddCommand(new ToDo(description));
     }
 
+    /**
+     * Parses a deadline command and creates the corresponding AddCommand.
+     *
+     * @param arguments The arguments string containing description and /by date.
+     * @return An AddCommand with a Deadline task.
+     * @throws SnaddyException If the arguments are malformed or missing required parts.
+     */
     private static Command parseDeadlineCommand(String arguments) throws SnaddyException {
         String details = arguments.trim();
         if (details.isEmpty()) {
@@ -81,6 +113,13 @@ public class Parser {
         return new AddCommand(new Deadline(description, by));
     }
 
+    /**
+     * Parses an event command and creates the corresponding AddCommand.
+     *
+     * @param arguments The arguments string containing description, /from date, and /to date.
+     * @return An AddCommand with an Event task.
+     * @throws SnaddyException If the arguments are malformed or missing required parts.
+     */
     private static Command parseEventCommand(String arguments) throws SnaddyException {
         String details = arguments.trim();
         if (details.isEmpty()) {
@@ -108,6 +147,13 @@ public class Parser {
         return new AddCommand(new Event(description, from, to));
     }
 
+    /**
+     * Parses an on command and creates the corresponding OnCommand.
+     *
+     * @param arguments The arguments string containing the date.
+     * @return An OnCommand with the parsed date.
+     * @throws SnaddyException If the date string is empty or in invalid format.
+     */
     private static Command parseOnCommand(String arguments) throws SnaddyException {
         String dateString = arguments.trim();
         if (dateString.isEmpty()) {

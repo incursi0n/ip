@@ -9,6 +9,10 @@ import snaddy.util.Ui;
 
 import java.io.File;
 
+/**
+ * Represents the main application class for Snaddy, a task management application.
+ * Handles initialization, command processing, and the main execution loop.
+ */
 public class Snaddy {
     private static final String FILE_PATH = "." + File.separator + "data" + File.separator + "snaddy.txt";
 
@@ -16,6 +20,12 @@ public class Snaddy {
     private TaskList tasks;
     private Ui ui;
 
+    /**
+     * Constructs a Snaddy instance with the specified file path for data storage.
+     * Initializes the UI, storage, and task list. If loading fails, starts with an empty task list.
+     *
+     * @param filePath The path to the file where tasks are stored.
+     */
     public Snaddy(String filePath) {
         ui = new Ui();
         storage = new Storage(filePath);
@@ -29,6 +39,10 @@ public class Snaddy {
         }
     }
 
+    /**
+     * Runs the main application loop.
+     * Displays welcome message, reads and processes user commands until exit command is received.
+     */
     public void run() {
         ui.showWelcome();
         boolean isExit = false;
@@ -50,6 +64,11 @@ public class Snaddy {
         ui.close();
     }
 
+    /**
+     * Entry point of the application.
+     *
+     * @param args Command line arguments (not used).
+     */
     public static void main(String[] args) {
         new Snaddy(FILE_PATH).run();
     }
