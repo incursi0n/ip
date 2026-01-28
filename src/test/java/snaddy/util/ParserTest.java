@@ -1,6 +1,7 @@
 package snaddy.util;
 
 import org.junit.jupiter.api.Test;
+
 import snaddy.command.*;
 import snaddy.exception.SnaddyException;
 import snaddy.task.Deadline;
@@ -174,6 +175,19 @@ public class ParserTest {
     }
 
     @Test
+    public void parse_findCommandWithKeyword_returnsFindCommand() throws SnaddyException {
+        Command command = Parser.parse("find book");
+        assertTrue(command instanceof FindCommand);
+        FindCommand findCommand = (FindCommand) command;
+        assertEquals("book", findCommand.getKeyword());
+    }
+
+    @Test
+    public void parse_findCommandWithoutKeyword_throwsException() {
+        assertThrows(SnaddyException.class, () -> Parser.parse("find"));
+    }
+
+    @Test
     public void parse_unknownCommand_throwsException() {
         assertThrows(SnaddyException.class, () -> Parser.parse("unknown"));
     }
@@ -182,10 +196,10 @@ public class ParserTest {
     public void parse_commandWithMixedCase_worksCorrectly() throws SnaddyException {
         Command command1 = Parser.parse("BYE");
         assertTrue(command1 instanceof ExitCommand);
-        
+
         Command command2 = Parser.parse("LIST");
         assertTrue(command2 instanceof ListCommand);
-        
+
         Command command3 = Parser.parse("Mark 1");
         assertTrue(command3 instanceof MarkCommand);
     }

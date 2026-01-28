@@ -17,26 +17,28 @@ public class Parser {
         String arguments = parts.length > 1 ? parts[1] : "";
 
         switch (commandWord) {
-            case "bye":
-                return new ExitCommand();
-            case "list":
-                return new ListCommand();
-            case "mark":
-                return new MarkCommand(parseTaskNumber(arguments));
-            case "unmark":
-                return new UnmarkCommand(parseTaskNumber(arguments));
-            case "delete":
-                return new DeleteCommand(parseTaskNumber(arguments));
-            case "todo":
-                return parseTodoCommand(arguments);
-            case "deadline":
-                return parseDeadlineCommand(arguments);
-            case "event":
-                return parseEventCommand(arguments);
-            case "on":
-                return parseOnCommand(arguments);
-            default:
-                throw new SnaddyException("SAD!!! I'm sorry, but I don't know what that means :-(");
+        case "bye":
+            return new ExitCommand();
+        case "list":
+            return new ListCommand();
+        case "mark":
+            return new MarkCommand(parseTaskNumber(arguments));
+        case "unmark":
+            return new UnmarkCommand(parseTaskNumber(arguments));
+        case "delete":
+            return new DeleteCommand(parseTaskNumber(arguments));
+        case "todo":
+            return parseTodoCommand(arguments);
+        case "deadline":
+            return parseDeadlineCommand(arguments);
+        case "event":
+            return parseEventCommand(arguments);
+        case "on":
+            return parseOnCommand(arguments);
+        case "find":
+            return parseFindCommand(arguments);
+        default:
+            throw new SnaddyException("SAD!!! I'm sorry, but I don't know what that means :-(");
         }
     }
 
@@ -122,5 +124,20 @@ public class Parser {
             throw new SnaddyException("SAD!!! Please provide date in yyyy-mm-dd format.\n"
                     + "      Example: on 2019-12-02");
         }
+    }
+
+    /**
+     * Parses a find command and creates the corresponding FindCommand.
+     *
+     * @param arguments The arguments string containing the keyword.
+     * @return A FindCommand with the parsed keyword.
+     * @throws SnaddyException If the keyword is empty.
+     */
+    private static Command parseFindCommand(String arguments) throws SnaddyException {
+        String keyword = arguments.trim();
+        if (keyword.isEmpty()) {
+            throw new SnaddyException("SAD!!! Please specify a keyword to find.");
+        }
+        return new FindCommand(keyword);
     }
 }
