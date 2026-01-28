@@ -62,21 +62,21 @@ public class Storage {
 
             Task task = null;
             switch (type) {
-                case "T":
-                    task = new ToDo(description);
-                    break;
-                case "D":
-                    if (parts.length >= 4) {
-                        task = new Deadline(description, parts[3]);
-                    }
-                    break;
-                case "E":
-                    if (parts.length >= 5) {
-                        task = new Event(description, parts[3], parts[4]);
-                    }
-                    break;
-                default:
-                    return null;
+            case "T":
+                task = new ToDo(description);
+                break;
+            case "D":
+                if (parts.length >= 4) {
+                    task = new Deadline(description, parts[3]);
+                }
+                break;
+            case "E":
+                if (parts.length >= 5) {
+                    task = new Event(description, parts[3], parts[4]);
+                }
+                break;
+            default:
+                return null;
             }
 
             if (task != null && isDone) {

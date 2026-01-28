@@ -1,6 +1,7 @@
 package snaddy.util;
 
 import org.junit.jupiter.api.Test;
+
 import snaddy.command.*;
 import snaddy.exception.SnaddyException;
 import snaddy.task.Deadline;
@@ -182,10 +183,10 @@ public class ParserTest {
     public void parse_commandWithMixedCase_worksCorrectly() throws SnaddyException {
         Command command1 = Parser.parse("BYE");
         assertTrue(command1 instanceof ExitCommand);
-        
+
         Command command2 = Parser.parse("LIST");
         assertTrue(command2 instanceof ListCommand);
-        
+
         Command command3 = Parser.parse("Mark 1");
         assertTrue(command3 instanceof MarkCommand);
     }

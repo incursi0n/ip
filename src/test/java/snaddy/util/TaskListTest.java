@@ -2,6 +2,7 @@ package snaddy.util;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+
 import snaddy.task.Deadline;
 import snaddy.task.Event;
 import snaddy.task.Task;
@@ -32,7 +33,7 @@ public class TaskListTest {
         LocalDate targetDate = LocalDate.of(2024, 1, 15);
         Deadline deadline = new Deadline("Submit assignment", "2024-01-15");
         taskList.add(deadline);
-        
+
         TaskList result = taskList.findTasksOnDate(targetDate);
         assertEquals(1, result.size());
         assertEquals(deadline, result.get(0));
@@ -43,7 +44,7 @@ public class TaskListTest {
         LocalDate targetDate = LocalDate.of(2024, 1, 15);
         Deadline deadline = new Deadline("Submit assignment", "2024-01-20");
         taskList.add(deadline);
-        
+
         TaskList result = taskList.findTasksOnDate(targetDate);
         assertEquals(0, result.size());
     }
@@ -53,7 +54,7 @@ public class TaskListTest {
         LocalDate targetDate = LocalDate.of(2024, 1, 15);
         Event event = new Event("Conference", "2024-01-15", "2024-01-17");
         taskList.add(event);
-        
+
         TaskList result = taskList.findTasksOnDate(targetDate);
         assertEquals(1, result.size());
         assertEquals(event, result.get(0));
@@ -64,7 +65,7 @@ public class TaskListTest {
         LocalDate targetDate = LocalDate.of(2024, 1, 17);
         Event event = new Event("Conference", "2024-01-15", "2024-01-17");
         taskList.add(event);
-        
+
         TaskList result = taskList.findTasksOnDate(targetDate);
         assertEquals(1, result.size());
         assertEquals(event, result.get(0));
@@ -75,7 +76,7 @@ public class TaskListTest {
         LocalDate targetDate = LocalDate.of(2024, 1, 16);
         Event event = new Event("Conference", "2024-01-15", "2024-01-17");
         taskList.add(event);
-        
+
         TaskList result = taskList.findTasksOnDate(targetDate);
         assertEquals(1, result.size());
         assertEquals(event, result.get(0));
@@ -86,7 +87,7 @@ public class TaskListTest {
         LocalDate targetDate = LocalDate.of(2024, 1, 14);
         Event event = new Event("Conference", "2024-01-15", "2024-01-17");
         taskList.add(event);
-        
+
         TaskList result = taskList.findTasksOnDate(targetDate);
         assertEquals(0, result.size());
     }
@@ -96,7 +97,7 @@ public class TaskListTest {
         LocalDate targetDate = LocalDate.of(2024, 1, 18);
         Event event = new Event("Conference", "2024-01-15", "2024-01-17");
         taskList.add(event);
-        
+
         TaskList result = taskList.findTasksOnDate(targetDate);
         assertEquals(0, result.size());
     }
@@ -106,7 +107,7 @@ public class TaskListTest {
         LocalDate targetDate = LocalDate.of(2024, 1, 15);
         ToDo todo = new ToDo("Buy groceries");
         taskList.add(todo);
-        
+
         TaskList result = taskList.findTasksOnDate(targetDate);
         assertEquals(0, result.size());
     }
@@ -118,12 +119,12 @@ public class TaskListTest {
         Deadline deadline2 = new Deadline("Pay bills", "2024-01-15");
         Event event = new Event("Meeting", "2024-01-15", "2024-01-15");
         ToDo todo = new ToDo("Buy groceries");
-        
+
         taskList.add(deadline1);
         taskList.add(deadline2);
         taskList.add(event);
         taskList.add(todo);
-        
+
         TaskList result = taskList.findTasksOnDate(targetDate);
         assertEquals(3, result.size());
         assertTrue(result.getTasks().contains(deadline1));
@@ -136,7 +137,7 @@ public class TaskListTest {
         LocalDate targetDate = LocalDate.of(2024, 1, 15);
         Deadline deadline = new Deadline("Submit assignment", "invalid-date");
         taskList.add(deadline);
-        
+
         TaskList result = taskList.findTasksOnDate(targetDate);
         assertEquals(0, result.size());
     }
@@ -146,7 +147,7 @@ public class TaskListTest {
         LocalDate targetDate = LocalDate.of(2024, 1, 15);
         Event event = new Event("Conference", "invalid-date", "2024-01-17");
         taskList.add(event);
-        
+
         TaskList result = taskList.findTasksOnDate(targetDate);
         assertEquals(0, result.size());
     }
@@ -156,7 +157,7 @@ public class TaskListTest {
         LocalDate targetDate = LocalDate.of(2024, 1, 15);
         Event event = new Event("Conference", "2024-01-15", "invalid-date");
         taskList.add(event);
-        
+
         TaskList result = taskList.findTasksOnDate(targetDate);
         assertEquals(0, result.size());
     }
