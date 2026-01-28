@@ -28,26 +28,26 @@ public class Parser {
         String arguments = parts.length > 1 ? parts[1] : "";
 
         switch (commandWord) {
-            case "bye":
-                return new ExitCommand();
-            case "list":
-                return new ListCommand();
-            case "mark":
-                return new MarkCommand(parseTaskNumber(arguments));
-            case "unmark":
-                return new UnmarkCommand(parseTaskNumber(arguments));
-            case "delete":
-                return new DeleteCommand(parseTaskNumber(arguments));
-            case "todo":
-                return parseTodoCommand(arguments);
-            case "deadline":
-                return parseDeadlineCommand(arguments);
-            case "event":
-                return parseEventCommand(arguments);
-            case "on":
-                return parseOnCommand(arguments);
-            default:
-                throw new SnaddyException("SAD!!! I'm sorry, but I don't know what that means :-(");
+        case "bye":
+            return new ExitCommand();
+        case "list":
+            return new ListCommand();
+        case "mark":
+            return new MarkCommand(parseTaskNumber(arguments));
+        case "unmark":
+            return new UnmarkCommand(parseTaskNumber(arguments));
+        case "delete":
+            return new DeleteCommand(parseTaskNumber(arguments));
+        case "todo":
+            return parseTodoCommand(arguments);
+        case "deadline":
+            return parseDeadlineCommand(arguments);
+        case "event":
+            return parseEventCommand(arguments);
+        case "on":
+            return parseOnCommand(arguments);
+        default:
+            throw new SnaddyException("SAD!!! I'm sorry, but I don't know what that means :-(");
         }
     }
 
