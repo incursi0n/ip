@@ -25,4 +25,8 @@ public class OnCommand extends Command {
     public boolean isExit() {
         return false;
     }
+
+    public LocalDate getDate() {
+        return date;
+    }
 }
