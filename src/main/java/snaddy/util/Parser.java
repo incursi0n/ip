@@ -1,13 +1,21 @@
 package snaddy.util;
 
-import snaddy.command.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+
+import snaddy.command.AddCommand;
+import snaddy.command.Command;
+import snaddy.command.DeleteCommand;
+import snaddy.command.ExitCommand;
+import snaddy.command.FindCommand;
+import snaddy.command.ListCommand;
+import snaddy.command.MarkCommand;
+import snaddy.command.OnCommand;
+import snaddy.command.UnmarkCommand;
 import snaddy.exception.SnaddyException;
 import snaddy.task.Deadline;
 import snaddy.task.Event;
 import snaddy.task.ToDo;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 
 /**
  * Parses user input strings into Command objects.
@@ -46,11 +54,8 @@ public class Parser {
             return parseEventCommand(arguments);
         case "on":
             return parseOnCommand(arguments);
-<<<<<<< HEAD
-=======
         case "find":
             return parseFindCommand(arguments);
->>>>>>> branch-Level-9
         default:
             throw new SnaddyException("SAD!!! I'm sorry, but I don't know what that means :-(");
         }
@@ -121,7 +126,7 @@ public class Parser {
     /**
      * Parses an event command and creates the corresponding AddCommand.
      *
-     * @param arguments The arguments string containing description, /from date, and /to date.
+     * @param arguments The arguments string containing description, /from date,     and /to date.
      * @return An AddCommand with an Event task.
      * @throws SnaddyException If the arguments are malformed or missing required parts.
      */

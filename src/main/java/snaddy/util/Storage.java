@@ -1,16 +1,16 @@
 package snaddy.util;
 
-import snaddy.exception.SnaddyException;
-import snaddy.task.Deadline;
-import snaddy.task.Event;
-import snaddy.task.Task;
-import snaddy.task.ToDo;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import snaddy.exception.SnaddyException;
+import snaddy.task.Deadline;
+import snaddy.task.Event;
+import snaddy.task.Task;
+import snaddy.task.ToDo;
 
 /**
  * Handles loading and saving of tasks to/from a file.
@@ -155,13 +155,13 @@ public class Storage {
             type = "D";
             Deadline deadline = (Deadline) task;
             formatted.append(type).append(" | ").append(isDone).append(" | ")
-                    .append(description).append(" | ").append(deadline.getBy());  // Changed
+                    .append(description).append(" | ").append(deadline.getBy());
         } else if (task instanceof Event) {
             type = "E";
             Event event = (Event) task;
             formatted.append(type).append(" | ").append(isDone).append(" | ")
-                    .append(description).append(" | ").append(event.getFrom())  // Changed
-                    .append(" | ").append(event.getTo());  // Changed
+                    .append(description).append(" | ").append(event.getFrom())
+                    .append(" | ").append(event.getTo());
         }
 
         return formatted.toString();
