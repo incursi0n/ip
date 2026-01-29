@@ -1,12 +1,12 @@
 package snaddy.util;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Locale;
+
 import snaddy.task.Deadline;
 import snaddy.task.Event;
 import snaddy.task.Task;
-
-import java.util.ArrayList;
-import java.time.LocalDate;
-import java.util.Locale;
 
 /**
  * Represents a list of tasks with operations to manage them.

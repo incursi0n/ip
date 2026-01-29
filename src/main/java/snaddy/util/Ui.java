@@ -1,8 +1,8 @@
 package snaddy.util;
 
-import snaddy.task.Task;
-
 import java.util.Scanner;
+
+import snaddy.task.Task;
 
 /**
  * Handles user interface operations including displaying messages and reading user input.
@@ -137,12 +137,6 @@ public class Ui {
     }
 
     /**
-<<<<<<< HEAD
-     * Reads a command from the user.
-     *
-     * @return The command string entered by the user.
-     */
-=======
      * Displays tasks whose descriptions match a keyword search.
      *
      * @param matchingTasks The TaskList containing matching tasks.
@@ -158,7 +152,11 @@ public class Ui {
         }
     }
 
->>>>>>> branch-Level-9
+    /**
+     * Reads a command from the user.
+     *
+     * @return The command string entered by the user.
+     */
     public String readCommand() {
         return scanner.nextLine();
     }

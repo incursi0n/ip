@@ -1,16 +1,26 @@
 package snaddy.util;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.time.LocalDate;
+
 import org.junit.jupiter.api.Test;
 
-import snaddy.command.*;
+import snaddy.command.AddCommand;
+import snaddy.command.Command;
+import snaddy.command.DeleteCommand;
+import snaddy.command.ExitCommand;
+import snaddy.command.FindCommand;
+import snaddy.command.ListCommand;
+import snaddy.command.MarkCommand;
+import snaddy.command.OnCommand;
+import snaddy.command.UnmarkCommand;
 import snaddy.exception.SnaddyException;
 import snaddy.task.Deadline;
 import snaddy.task.Event;
 import snaddy.task.ToDo;
-
-import java.time.LocalDate;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 public class ParserTest {
 
