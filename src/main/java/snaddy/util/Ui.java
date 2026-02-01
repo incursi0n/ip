@@ -29,15 +29,17 @@ public class Ui {
     /**
      * Displays the welcome message with the application logo.
      */
-    public void showWelcome() {
-        System.out.print(LOGO + "      Hello! I'm Snaddy\n      What can I do for you?\n" + DIVIDER);
+    public String showWelcome() {
+        return LOGO + "      Hello! I'm Snaddy\n"
+                + "      What can I do for you?\n"
+                + DIVIDER;
     }
 
     /**
      * Displays a divider line.
      */
-    public void showLine() {
-        System.out.print(DIVIDER);
+    public String showLine() {
+        return DIVIDER;
     }
 
     /**
@@ -45,22 +47,22 @@ public class Ui {
      *
      * @param message The error message to display.
      */
-    public void showError(String message) {
-        System.out.println("      " + message);
+    public String showError(String message) {
+        return "      " + message + "\n";
     }
 
     /**
      * Displays a loading error message when tasks cannot be loaded from file.
      */
-    public void showLoadingError() {
-        showError("Error loading tasks from file. Starting with empty task list.");
+    public String showLoadingError() {
+        return showError("Error loading tasks from file. Starting with empty task list.");
     }
 
     /**
      * Displays the goodbye message when the user exits the application.
      */
-    public void showGoodbye() {
-        System.out.println("      Bye. Hope to see you again soon!");
+    public String showGoodbye() {
+        return "      Bye. Hope to see you again soon!\n";
     }
 
     /**
@@ -69,10 +71,10 @@ public class Ui {
      * @param task The task that was added.
      * @param taskCount The total number of tasks in the list after adding.
      */
-    public void showTaskAdded(Task task, int taskCount) {
-        System.out.println("      Got it. I've added this task:");
-        System.out.println("        " + task);
-        System.out.println("      Now you have " + taskCount + " tasks in the list.");
+    public String showTaskAdded(Task task, int taskCount) {
+        return "      Got it. I've added this task:\n"
+                + "        " + task + "\n"
+                + "      Now you have " + taskCount + " tasks in the list.\n";
     }
 
     /**
@@ -81,10 +83,10 @@ public class Ui {
      * @param task The task that was deleted.
      * @param taskCount The total number of tasks in the list after deletion.
      */
-    public void showTaskDeleted(Task task, int taskCount) {
-        System.out.println("      Noted. I've removed this task:");
-        System.out.println("        " + task);
-        System.out.println("      Now you have " + taskCount + " tasks in the list.");
+    public String showTaskDeleted(Task task, int taskCount) {
+        return "      Noted. I've removed this task:\n"
+                + "        " + task + "\n"
+                + "      Now you have " + taskCount + " tasks in the list.\n";
     }
 
     /**
@@ -92,9 +94,9 @@ public class Ui {
      *
      * @param task The task that was marked as done.
      */
-    public void showTaskMarked(Task task) {
-        System.out.println("      Nice! I've marked this task as done:");
-        System.out.println("        " + task);
+    public String showTaskMarked(Task task) {
+        return "      Nice! I've marked this task as done:\n"
+                + "        " + task + "\n";
     }
 
     /**
@@ -102,9 +104,9 @@ public class Ui {
      *
      * @param task The task that was marked as not done.
      */
-    public void showTaskUnmarked(Task task) {
-        System.out.println("      OK, I've marked this task as not done yet:");
-        System.out.println("        " + task);
+    public String showTaskUnmarked(Task task) {
+        return "      OK, I've marked this task as not done yet:\n"
+                + "        " + task + "\n";
     }
 
     /**
@@ -112,11 +114,13 @@ public class Ui {
      *
      * @param tasks The TaskList to display.
      */
-    public void showTaskList(TaskList tasks) {
-        System.out.println("      Here are the tasks in your list:");
+    public String showTaskList(TaskList tasks) {
+        StringBuilder result = new StringBuilder();
+        result.append("      Here are the tasks in your list:\n");
         for (int i = 0; i < tasks.size(); i++) {
-            System.out.println("      " + (i + 1) + "." + tasks.get(i));
+            result.append("      ").append(i + 1).append(".").append(tasks.get(i)).append("\n");
         }
+        return result.toString();
     }
 
     /**
@@ -125,15 +129,17 @@ public class Ui {
      * @param matchingTasks The TaskList containing tasks that match the date.
      * @param dateString The formatted date string to display.
      */
-    public void showTasksOnDate(TaskList matchingTasks, String dateString) {
-        System.out.println("      Here are the tasks on " + dateString + ":");
+    public String showTasksOnDate(TaskList matchingTasks, String dateString) {
+        StringBuilder result = new StringBuilder();
+        result.append("      Here are the tasks on ").append(dateString).append(":\n");
         if (matchingTasks.size() == 0) {
-            System.out.println("      No tasks found.");
+            result.append("      No tasks found.\n");
         } else {
             for (int i = 0; i < matchingTasks.size(); i++) {
-                System.out.println("      " + (i + 1) + "." + matchingTasks.get(i));
+                result.append("      ").append(i + 1).append(".").append(matchingTasks.get(i)).append("\n");
             }
         }
+        return result.toString();
     }
 
     /**
@@ -141,15 +147,17 @@ public class Ui {
      *
      * @param matchingTasks The TaskList containing matching tasks.
      */
-    public void showMatchingTasks(TaskList matchingTasks) {
-        System.out.println("      Here are the matching tasks in your list:");
+    public String showMatchingTasks(TaskList matchingTasks) {
+        StringBuilder result = new StringBuilder();
+        result.append("      Here are the matching tasks in your list:\n");
         if (matchingTasks.size() == 0) {
-            System.out.println("      No tasks found.");
+            result.append("      No tasks found.\n");
         } else {
             for (int i = 0; i < matchingTasks.size(); i++) {
-                System.out.println("      " + (i + 1) + "." + matchingTasks.get(i));
+                result.append("      ").append(i + 1).append(".").append(matchingTasks.get(i)).append("\n");
             }
         }
+        return result.toString();
     }
 
     /**

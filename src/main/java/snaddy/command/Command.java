@@ -16,9 +16,10 @@ public abstract class Command {
      * @param tasks The task list to operate on.
      * @param ui The UI handler for displaying messages.
      * @param storage The storage handler for saving tasks.
+     * @return The output message to be shown to the user.
      * @throws SnaddyException If an error occurs during command execution.
      */
-    public abstract void execute(TaskList tasks, Ui ui, Storage storage) throws SnaddyException;
+    public abstract String execute(TaskList tasks, Ui ui, Storage storage) throws SnaddyException;
 
     /**
      * Returns whether this command should exit the application.

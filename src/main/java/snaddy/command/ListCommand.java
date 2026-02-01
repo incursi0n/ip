@@ -14,10 +14,11 @@ public class ListCommand extends Command {
      * @param tasks The task list to display.
      * @param ui The UI handler for displaying the task list.
      * @param storage The storage handler (not used).
+     * @return The output message to be shown to the user.
      */
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) {
-        ui.showTaskList(tasks);
+    public String execute(TaskList tasks, Ui ui, Storage storage) {
+        return ui.showTaskList(tasks);
     }
 
     @Override
