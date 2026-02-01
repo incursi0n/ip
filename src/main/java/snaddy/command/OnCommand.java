@@ -28,12 +28,13 @@ public class OnCommand extends Command {
      * @param tasks The task list to search.
      * @param ui The UI handler for displaying the matching tasks.
      * @param storage The storage handler (not used).
+     * @return The output message to be shown to the user.
      */
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) {
+    public String execute(TaskList tasks, Ui ui, Storage storage) {
         TaskList matchingTasks = tasks.findTasksOnDate(date);
         String dateString = date.format(DateTimeFormatter.ofPattern("MMM d yyyy"));
-        ui.showTasksOnDate(matchingTasks, dateString);
+        return ui.showTasksOnDate(matchingTasks, dateString);
     }
 
     @Override

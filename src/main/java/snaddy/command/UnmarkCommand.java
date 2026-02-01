@@ -27,10 +27,11 @@ public class UnmarkCommand extends Command {
      * @param tasks The task list containing the task to be unmarked.
      * @param ui The UI handler for displaying messages.
      * @param storage The storage handler for saving tasks.
+     * @return The output message to be shown to the user.
      * @throws SnaddyException If the task index is invalid or an error occurs during execution.
      */
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws SnaddyException {
+    public String execute(TaskList tasks, Ui ui, Storage storage) throws SnaddyException {
         if (taskIndex < 0 || taskIndex >= tasks.size()) {
             throw new SnaddyException("SAD!!! Task number " + (taskIndex + 1)
                     + " does not exist. You have " + tasks.size() + " task(s) in your list.");
@@ -38,7 +39,7 @@ public class UnmarkCommand extends Command {
         Task task = tasks.get(taskIndex);
         task.markAsNotDone();
         storage.save(tasks.getTasks());
-        ui.showTaskUnmarked(task);
+        return ui.showTaskUnmarked(task);
     }
 
     @Override

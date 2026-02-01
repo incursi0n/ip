@@ -16,9 +16,11 @@ import snaddy.util.Ui;
 public class Snaddy {
     private static final String FILE_PATH = "." + File.separator + "data" + File.separator + "snaddy.txt";
 
-    private Storage storage;
-    private TaskList tasks;
-    private Ui ui;
+    private final Storage storage;
+    private final TaskList tasks;
+    private final Ui ui;
+    private final String startupMessage;
+    private boolean isExit;
 
     /**
      * Constructs a Snaddy instance with the specified file path for data storage.
@@ -29,37 +31,75 @@ public class Snaddy {
     public Snaddy(String filePath) {
         ui = new Ui();
         storage = new Storage(filePath);
+        String message = "";
+        TaskList loadedTasks;
         try {
-            tasks = new TaskList(storage.load());
+            loadedTasks = new TaskList(storage.load());
         } catch (SnaddyException e) {
-            ui.showLine();
-            ui.showLoadingError();
-            ui.showLine();
-            tasks = new TaskList();
+            loadedTasks = new TaskList();
+            message = ui.showLine()
+                    + ui.showLoadingError()
+                    + ui.showLine();
+        }
+        tasks = loadedTasks;
+        startupMessage = message;
+    }
+
+    /**
+     * Constructs a Snaddy instance using the default file path for data storage.
+     */
+    public Snaddy() {
+        this(FILE_PATH);
+    }
+
+    /**
+     * Returns the welcome message to be shown to the user.
+     *
+     * @return The welcome message.
+     */
+    public String getWelcomeMessage() {
+        return ui.showWelcome() + startupMessage;
+    }
+
+    /**
+     * Returns whether the application should exit.
+     *
+     * @return true if the application should exit, false otherwise.
+     */
+    public boolean isExit() {
+        return isExit;
+    }
+
+    /**
+     * Generates a response for the user's input, updating application state as needed.
+     *
+     * @param input The full command string entered by the user.
+     * @return The response message to be shown to the user.
+     */
+    public String getResponse(String input) {
+        try {
+            Command command = Parser.parse(input);
+            String response = command.execute(tasks, ui, storage);
+            isExit = command.isExit();
+            return ui.showLine() + response + ui.showLine();
+        } catch (SnaddyException e) {
+            return ui.showLine() + ui.showError(e.getMessage()) + ui.showLine();
+        } catch (Exception e) {
+            return ui.showLine()
+                    + ui.showError("SAD!!! An error occurred: " + e.getMessage())
+                    + ui.showLine();
         }
     }
 
     /**
-     * Runs the main application loop.
+     * Runs the application using the command-line interface.
      * Displays welcome message, reads and processes user commands until exit command is received.
      */
     public void run() {
-        ui.showWelcome();
-        boolean isExit = false;
+        System.out.print(getWelcomeMessage());
         while (!isExit) {
-            try {
-                String fullCommand = ui.readCommand();
-                ui.showLine();
-                Command c = Parser.parse(fullCommand);
-                c.execute(tasks, ui, storage);
-                isExit = c.isExit();
-            } catch (SnaddyException e) {
-                ui.showError(e.getMessage());
-            } catch (Exception e) {
-                ui.showError("SAD!!! An error occurred: " + e.getMessage());
-            } finally {
-                ui.showLine();
-            }
+            String fullCommand = ui.readCommand();
+            System.out.print(getResponse(fullCommand));
         }
         ui.close();
     }

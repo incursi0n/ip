@@ -27,13 +27,14 @@ public class AddCommand extends Command {
      * @param tasks The task list to add the task to.
      * @param ui The UI handler for displaying messages.
      * @param storage The storage handler for saving tasks.
+     * @return The output message to be shown to the user.
      * @throws SnaddyException If an error occurs during execution.
      */
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws SnaddyException {
+    public String execute(TaskList tasks, Ui ui, Storage storage) throws SnaddyException {
         tasks.add(task);
         storage.save(tasks.getTasks());
-        ui.showTaskAdded(task, tasks.size());
+        return ui.showTaskAdded(task, tasks.size());
     }
 
     @Override
