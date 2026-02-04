@@ -18,6 +18,7 @@ public class AddCommand extends Command {
      * @param task The task to be added to the task list.
      */
     public AddCommand(Task task) {
+        assert task != null : "task to add should not be null";
         this.task = task;
     }
 
@@ -32,6 +33,8 @@ public class AddCommand extends Command {
      */
     @Override
     public String execute(TaskList tasks, Ui ui, Storage storage) throws SnaddyException {
+        assert task != null : "task to add should not be null";
+        assert tasks != null && storage != null && ui != null : "dependencies should be provided";
         tasks.add(task);
         storage.save(tasks.getTasks());
         return ui.showTaskAdded(task, tasks.size());

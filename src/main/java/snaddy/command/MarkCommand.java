@@ -36,6 +36,7 @@ public class MarkCommand extends Command {
             throw new SnaddyException("SAD!!! Task number " + (taskIndex + 1)
                     + " does not exist. You have " + tasks.size() + " task(s) in your list.");
         }
+        assert taskIndex >= 0 && taskIndex < tasks.size() : "index valid after check";
         Task task = tasks.get(taskIndex);
         task.markAsDone();
         storage.save(tasks.getTasks());

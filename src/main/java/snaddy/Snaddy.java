@@ -43,6 +43,9 @@ public class Snaddy {
         }
         tasks = loadedTasks;
         startupMessage = message;
+        assert tasks != null : "task list should be initialized";
+        assert storage != null : "storage should be initialized";
+        assert ui != null : "ui should be initialized";
     }
 
     /**
@@ -77,8 +80,10 @@ public class Snaddy {
      * @return The response message to be shown to the user.
      */
     public String getResponse(String input) {
+        assert input != null : "user input should not be null";
         try {
             Command command = Parser.parse(input);
+            assert command != null : "parser should return a command for valid input";
             String response = command.execute(tasks, ui, storage);
             isExit = command.isExit();
             return ui.showLine() + response + ui.showLine();
@@ -99,6 +104,7 @@ public class Snaddy {
         System.out.print(getWelcomeMessage());
         while (!isExit) {
             String fullCommand = ui.readCommand();
+            assert fullCommand != null : "readCommand should return a string (possibly empty)";
             System.out.print(getResponse(fullCommand));
         }
         ui.close();

@@ -51,13 +51,15 @@ shadowJar {
     archiveBaseName = "snaddy"
     archiveClassifier = null
     archiveFileName = "snaddy.jar"
+    mergeServiceFiles()
     manifest {
         attributes 'Main-Class': application.mainClass.get()
     }
 }
 
-run{
+run {
     standardInput = System.in
+    enableAssertions = true
 }
 
 checkstyle {

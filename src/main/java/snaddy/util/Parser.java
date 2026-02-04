@@ -31,7 +31,9 @@ public class Parser {
      * @throws SnaddyException If the command is invalid or arguments are malformed.
      */
     public static Command parse(String fullCommand) throws SnaddyException {
+        assert fullCommand != null : "full command string should not be null";
         String[] parts = fullCommand.split(" ", 2);
+        assert parts != null && parts.length >= 1 : "split yields at least one part";
         String commandWord = parts[0].toLowerCase();
         String arguments = parts.length > 1 ? parts[1] : "";
 
@@ -73,7 +75,9 @@ public class Parser {
             throw new SnaddyException("SAD!!! Please specify a task number.");
         }
         try {
-            return Integer.parseInt(arguments.trim()) - 1;
+            int index = Integer.parseInt(arguments.trim()) - 1;
+            assert index >= 0 : "task number from user is 1-based and positive when valid";
+            return index;
         } catch (NumberFormatException e) {
             throw new SnaddyException("SAD!!! Please provide a valid task number.");
         }
@@ -112,6 +116,7 @@ public class Parser {
                     + "      Usage: deadline <description> /by <date>\n"
                     + "      Date format: yyyy-mm-dd (e.g., 2019-12-02)");
         }
+        assert byIndex >= 0 : "/by marker found so index is valid";
         String description = details.substring(0, byIndex).trim();
         String by = details.substring(byIndex + 5).trim();
         if (description.isEmpty()) {
@@ -142,6 +147,7 @@ public class Parser {
                     + "      Usage: event <description> /from <date> /to <date>\n"
                     + "      Date format: yyyy-mm-dd (e.g., 2019-12-02)");
         }
+        assert toIndex > fromIndex : "/to must appear after /from in event string";
         String description = details.substring(0, fromIndex).trim();
         String from = details.substring(fromIndex + 7, toIndex).trim();
         String to = details.substring(toIndex + 5).trim();

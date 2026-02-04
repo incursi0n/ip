@@ -72,6 +72,8 @@ public class Ui {
      * @param taskCount The total number of tasks in the list after adding.
      */
     public String showTaskAdded(Task task, int taskCount) {
+        assert task != null : "task to display should not be null";
+        assert taskCount > 0 : "task count should be positive after add";
         return "      Got it. I've added this task:\n"
                 + "        " + task + "\n"
                 + "      Now you have " + taskCount + " tasks in the list.\n";
@@ -84,6 +86,8 @@ public class Ui {
      * @param taskCount The total number of tasks in the list after deletion.
      */
     public String showTaskDeleted(Task task, int taskCount) {
+        assert task != null : "deleted task should not be null";
+        assert taskCount >= 0 : "task count should be non-negative after delete";
         return "      Noted. I've removed this task:\n"
                 + "        " + task + "\n"
                 + "      Now you have " + taskCount + " tasks in the list.\n";
@@ -95,6 +99,7 @@ public class Ui {
      * @param task The task that was marked as done.
      */
     public String showTaskMarked(Task task) {
+        assert task != null : "task to display should not be null";
         return "      Nice! I've marked this task as done:\n"
                 + "        " + task + "\n";
     }
@@ -105,6 +110,7 @@ public class Ui {
      * @param task The task that was marked as not done.
      */
     public String showTaskUnmarked(Task task) {
+        assert task != null : "task to display should not be null";
         return "      OK, I've marked this task as not done yet:\n"
                 + "        " + task + "\n";
     }
@@ -115,6 +121,7 @@ public class Ui {
      * @param tasks The TaskList to display.
      */
     public String showTaskList(TaskList tasks) {
+        assert tasks != null : "task list to display should not be null";
         StringBuilder result = new StringBuilder();
         result.append("      Here are the tasks in your list:\n");
         for (int i = 0; i < tasks.size(); i++) {
@@ -130,6 +137,8 @@ public class Ui {
      * @param dateString The formatted date string to display.
      */
     public String showTasksOnDate(TaskList matchingTasks, String dateString) {
+        assert matchingTasks != null : "matching task list should not be null";
+        assert dateString != null : "date string for display should not be null";
         StringBuilder result = new StringBuilder();
         result.append("      Here are the tasks on ").append(dateString).append(":\n");
         if (matchingTasks.size() == 0) {
@@ -148,6 +157,7 @@ public class Ui {
      * @param matchingTasks The TaskList containing matching tasks.
      */
     public String showMatchingTasks(TaskList matchingTasks) {
+        assert matchingTasks != null : "matching task list should not be null";
         StringBuilder result = new StringBuilder();
         result.append("      Here are the matching tasks in your list:\n");
         if (matchingTasks.size() == 0) {

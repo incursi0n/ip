@@ -36,6 +36,7 @@ public class DeleteCommand extends Command {
             throw new SnaddyException("SAD!!! Task number " + (taskIndex + 1)
                     + " does not exist. You have " + tasks.size() + " task(s) in your list.");
         }
+        assert taskIndex >= 0 && taskIndex < tasks.size() : "index valid after check";
         Task deletedTask = tasks.remove(taskIndex);
         storage.save(tasks.getTasks());
         return ui.showTaskDeleted(deletedTask, tasks.size());

@@ -15,6 +15,7 @@ public class Task {
      * @param description The description of the task.
      */
     public Task(String description) {
+        assert description != null : "task description should not be null";
         this.description = description;
         this.isDone = false;
     }
@@ -25,6 +26,7 @@ public class Task {
      * @return "X" if the task is done, " " (space) if not done.
      */
     public String getStatusIcon() {
+        assert description != null : "description should remain non-null for display";
         return (isDone ? "X" : " ");
     }
 
