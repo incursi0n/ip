@@ -74,6 +74,15 @@ public class TaskList {
     }
 
     /**
+     * Returns whether the task list is empty.
+     *
+     * @return true if the task list is empty, false otherwise.
+     */
+    public boolean isEmpty() {
+        return tasks.isEmpty();
+    }
+
+    /**
      * Returns the underlying ArrayList of tasks.
      *
      * @return The ArrayList of tasks.

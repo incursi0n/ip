@@ -141,7 +141,7 @@ public class Ui {
         assert dateString != null : "date string for display should not be null";
         StringBuilder result = new StringBuilder();
         result.append("      Here are the tasks on ").append(dateString).append(":\n");
-        if (matchingTasks.size() == 0) {
+        if (matchingTasks.isEmpty()) {
             result.append("      No tasks found.\n");
         } else {
             for (int i = 0; i < matchingTasks.size(); i++) {
@@ -160,7 +160,7 @@ public class Ui {
         assert matchingTasks != null : "matching task list should not be null";
         StringBuilder result = new StringBuilder();
         result.append("      Here are the matching tasks in your list:\n");
-        if (matchingTasks.size() == 0) {
+        if (matchingTasks.isEmpty()) {
             result.append("      No tasks found.\n");
         } else {
             for (int i = 0; i < matchingTasks.size(); i++) {
