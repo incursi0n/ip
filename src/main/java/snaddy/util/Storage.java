@@ -17,6 +17,15 @@ import snaddy.task.ToDo;
  * Manages file I/O operations and task serialization/deserialization.
  */
 public class Storage {
+    private static final String DELIMITER = " | ";
+    private static final String TASK_TYPE_TODO = "T";
+    private static final String TASK_TYPE_DEADLINE = "D";
+    private static final String TASK_TYPE_EVENT = "E";
+    private static final String TASK_DONE_MARKER = "1";
+    private static final int MIN_PARTS_COUNT = 3;
+    private static final int DEADLINE_PARTS_COUNT = 4;
+    private static final int EVENT_PARTS_COUNT = 5;
+
     private String filePath;
 
     /**
@@ -48,8 +57,7 @@ public class Storage {
             return tasks;
         }
 
-        try {
-            Scanner scanner = new Scanner(file);
+        try (Scanner scanner = new Scanner(file)) {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 Task task = parseTask(line);
@@ -57,7 +65,6 @@ public class Storage {
                     tasks.add(task);
                 }
             }
-            scanner.close();
         } catch (IOException e) {
             throw new SnaddyException("Error loading tasks from file: " + e.getMessage());
         }
@@ -74,26 +81,26 @@ public class Storage {
     private Task parseTask(String line) {
         try {
             String[] parts = line.split(" \\| ");
-            if (parts.length < 3) {
+            if (parts.length < MIN_PARTS_COUNT) {
                 return null;
             }
 
             String type = parts[0];
-            boolean isDone = parts[1].equals("1");
+            boolean isDone = parts[1].equals(TASK_DONE_MARKER);
             String description = parts[2];
 
             Task task = null;
             switch (type) {
-            case "T":
+            case TASK_TYPE_TODO:
                 task = new ToDo(description);
                 break;
-            case "D":
-                if (parts.length >= 4) {
+            case TASK_TYPE_DEADLINE:
+                if (parts.length >= DEADLINE_PARTS_COUNT) {
                     task = new Deadline(description, parts[3]);
                 }
                 break;
-            case "E":
-                if (parts.length >= 5) {
+            case TASK_TYPE_EVENT:
+                if (parts.length >= EVENT_PARTS_COUNT) {
                     task = new Event(description, parts[3], parts[4]);
                 }
                 break;
@@ -126,11 +133,11 @@ public class Storage {
                 directory.mkdirs();
             }
 
-            FileWriter writer = new FileWriter(file);
-            for (Task task : tasks) {
-                writer.write(formatTask(task) + "\n");
+            try (FileWriter writer = new FileWriter(file)) {
+                for (Task task : tasks) {
+                    writer.write(formatTask(task) + "\n");
+                }
             }
-            writer.close();
         } catch (IOException e) {
             throw new SnaddyException("Error saving tasks to file: " + e.getMessage());
         }
@@ -144,24 +151,24 @@ public class Storage {
      */
     private String formatTask(Task task) {
         String type;
-        String isDone = task.isDone() ? "1" : "0";
+        String isDone = task.isDone() ? TASK_DONE_MARKER : "0";
         String description = task.getDescription();
         StringBuilder formatted = new StringBuilder();
 
         if (task instanceof ToDo) {
-            type = "T";
-            formatted.append(type).append(" | ").append(isDone).append(" | ").append(description);
+            type = TASK_TYPE_TODO;
+            formatted.append(type).append(DELIMITER).append(isDone).append(DELIMITER).append(description);
         } else if (task instanceof Deadline) {
-            type = "D";
+            type = TASK_TYPE_DEADLINE;
             Deadline deadline = (Deadline) task;
-            formatted.append(type).append(" | ").append(isDone).append(" | ")
-                    .append(description).append(" | ").append(deadline.getBy());
+            formatted.append(type).append(DELIMITER).append(isDone).append(DELIMITER)
+                    .append(description).append(DELIMITER).append(deadline.getBy());
         } else if (task instanceof Event) {
-            type = "E";
+            type = TASK_TYPE_EVENT;
             Event event = (Event) task;
-            formatted.append(type).append(" | ").append(isDone).append(" | ")
-                    .append(description).append(" | ").append(event.getFrom())
-                    .append(" | ").append(event.getTo());
+            formatted.append(type).append(DELIMITER).append(isDone).append(DELIMITER)
+                    .append(description).append(DELIMITER).append(event.getFrom())
+                    .append(DELIMITER).append(event.getTo());
         }
 
         return formatted.toString();

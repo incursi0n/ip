@@ -22,6 +22,12 @@ import snaddy.task.ToDo;
  * Handles parsing of all command types and their arguments.
  */
 public class Parser {
+    private static final String DELIMITER_BY = " /by ";
+    private static final String DELIMITER_FROM = " /from ";
+    private static final String DELIMITER_TO = " /to ";
+    private static final int LENGTH_BY_DELIMITER = DELIMITER_BY.length();
+    private static final int LENGTH_FROM_DELIMITER = DELIMITER_FROM.length();
+    private static final int LENGTH_TO_DELIMITER = DELIMITER_TO.length();
 
     /**
      * Parses a full command string and returns the corresponding Command object.
@@ -106,14 +112,14 @@ public class Parser {
         if (details.isEmpty()) {
             throw new SnaddyException("SAD!!! The description of a deadline cannot be empty.");
         }
-        int byIndex = details.indexOf(" /by ");
+        int byIndex = details.indexOf(DELIMITER_BY);
         if (byIndex == -1) {
             throw new SnaddyException("SAD!!! Please specify the deadline using /by.\n"
                     + "      Usage: deadline <description> /by <date>\n"
                     + "      Date format: yyyy-mm-dd (e.g., 2019-12-02)");
         }
         String description = details.substring(0, byIndex).trim();
-        String by = details.substring(byIndex + 5).trim();
+        String by = details.substring(byIndex + LENGTH_BY_DELIMITER).trim();
         if (description.isEmpty()) {
             throw new SnaddyException("SAD!!! The description of a deadline cannot be empty.");
         }
@@ -126,7 +132,7 @@ public class Parser {
     /**
      * Parses an event command and creates the corresponding AddCommand.
      *
-     * @param arguments The arguments string containing description, /from date,     and /to date.
+     * @param arguments The arguments string containing description, /from date, and /to date.
      * @return An AddCommand with an Event task.
      * @throws SnaddyException If the arguments are malformed or missing required parts.
      */
@@ -135,16 +141,16 @@ public class Parser {
         if (details.isEmpty()) {
             throw new SnaddyException("SAD!!! The description of an event cannot be empty.");
         }
-        int fromIndex = details.indexOf(" /from ");
-        int toIndex = details.indexOf(" /to ");
+        int fromIndex = details.indexOf(DELIMITER_FROM);
+        int toIndex = details.indexOf(DELIMITER_TO);
         if (fromIndex == -1 || toIndex == -1) {
             throw new SnaddyException("SAD!!! Please specify the event using /from and /to.\n"
                     + "      Usage: event <description> /from <date> /to <date>\n"
                     + "      Date format: yyyy-mm-dd (e.g., 2019-12-02)");
         }
         String description = details.substring(0, fromIndex).trim();
-        String from = details.substring(fromIndex + 7, toIndex).trim();
-        String to = details.substring(toIndex + 5).trim();
+        String from = details.substring(fromIndex + LENGTH_FROM_DELIMITER, toIndex).trim();
+        String to = details.substring(toIndex + LENGTH_TO_DELIMITER).trim();
         if (description.isEmpty()) {
             throw new SnaddyException("SAD!!! The description of an event cannot be empty.");
         }

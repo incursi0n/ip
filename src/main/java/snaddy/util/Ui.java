@@ -127,7 +127,7 @@ public class Ui {
      */
     public void showTasksOnDate(TaskList matchingTasks, String dateString) {
         System.out.println("      Here are the tasks on " + dateString + ":");
-        if (matchingTasks.size() == 0) {
+        if (matchingTasks.isEmpty()) {
             System.out.println("      No tasks found.");
         } else {
             for (int i = 0; i < matchingTasks.size(); i++) {
@@ -143,7 +143,7 @@ public class Ui {
      */
     public void showMatchingTasks(TaskList matchingTasks) {
         System.out.println("      Here are the matching tasks in your list:");
-        if (matchingTasks.size() == 0) {
+        if (matchingTasks.isEmpty()) {
             System.out.println("      No tasks found.");
         } else {
             for (int i = 0; i < matchingTasks.size(); i++) {
