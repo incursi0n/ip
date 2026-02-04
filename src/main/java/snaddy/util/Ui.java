@@ -171,6 +171,52 @@ public class Ui {
     }
 
     /**
+     * Displays the help page listing available commands and usage.
+     *
+     * @return The help page message.
+     */
+    public String showHelp() {
+        StringBuilder result = new StringBuilder();
+        result.append("      SAD!!! Here are the commands you can use:\n");
+        result.append("      ____________________________________________________________\n");
+        result.append("      list\n");
+        result.append("        Show all tasks in your list.\n");
+        result.append("      ____________________________________________________________\n");
+        result.append("      todo <description>\n");
+        result.append("        Add a todo task. Example: todo read book\n");
+        result.append("      ____________________________________________________________\n");
+        result.append("      deadline <description> /by <date>\n");
+        result.append("        Add a deadline. Date format: yyyy-mm-dd.\n");
+        result.append("        Example: deadline return book /by 2025-02-10\n");
+        result.append("      ____________________________________________________________\n");
+        result.append("      event <description> /from <date> /to <date>\n");
+        result.append("        Add an event. Example: event meeting /from 2025-02-05 /to 2025-02-05\n");
+        result.append("      ____________________________________________________________\n");
+        result.append("      mark <task number>\n");
+        result.append("        Mark a task as done. Example: mark 1\n");
+        result.append("      ____________________________________________________________\n");
+        result.append("      unmark <task number>\n");
+        result.append("        Mark a task as not done. Example: unmark 1\n");
+        result.append("      ____________________________________________________________\n");
+        result.append("      delete <task number>\n");
+        result.append("        Remove a task from the list. Example: delete 1\n");
+        result.append("      ____________________________________________________________\n");
+        result.append("      find <keyword>\n");
+        result.append("        Search for tasks by keyword. Example: find book\n");
+        result.append("      ____________________________________________________________\n");
+        result.append("      on <date>\n");
+        result.append("        Show tasks on a date (yyyy-mm-dd). Example: on 2025-02-05\n");
+        result.append("      ____________________________________________________________\n");
+        result.append("      help\n");
+        result.append("        Show this help page.\n");
+        result.append("      ____________________________________________________________\n");
+        result.append("      bye\n");
+        result.append("        Exit the application.\n");
+        result.append("      ____________________________________________________________\n");
+        return result.toString();
+    }
+
+    /**
      * Reads a command from the user.
      *
      * @return The command string entered by the user.

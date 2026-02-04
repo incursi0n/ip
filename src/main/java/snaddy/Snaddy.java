@@ -4,6 +4,9 @@ import java.io.File;
 
 import snaddy.command.Command;
 import snaddy.exception.SnaddyException;
+import snaddy.task.Deadline;
+import snaddy.task.Event;
+import snaddy.task.ToDo;
 import snaddy.util.Parser;
 import snaddy.util.Storage;
 import snaddy.util.TaskList;
@@ -32,6 +35,7 @@ public class Snaddy {
         ui = new Ui();
         storage = new Storage(filePath);
         String message = "";
+        boolean isFirstRun = !storage.fileExists();
         TaskList loadedTasks;
         try {
             loadedTasks = new TaskList(storage.load());
@@ -40,6 +44,16 @@ public class Snaddy {
             message = ui.showLine()
                     + ui.showLoadingError()
                     + ui.showLine();
+        }
+        if (isFirstRun && loadedTasks.isEmpty()) {
+            loadSampleData(loadedTasks);
+            try {
+                storage.save(loadedTasks.getTasks());
+            } catch (SnaddyException e) {
+                message = message + ui.showLine()
+                        + ui.showError("Could not save sample data: " + e.getMessage())
+                        + ui.showLine();
+            }
         }
         tasks = loadedTasks;
         startupMessage = message;
@@ -53,6 +67,19 @@ public class Snaddy {
      */
     public Snaddy() {
         this(FILE_PATH);
+    }
+
+    /**
+     * Loads sample tasks into the given task list for first-run guidance.
+     *
+     * @param taskList The task list to add sample tasks to.
+     */
+    private void loadSampleData(TaskList taskList) {
+        taskList.add(new ToDo("Try the help command"));
+        taskList.add(new ToDo("Add a todo with: todo <description>"));
+        taskList.add(new Deadline("Sample deadline", "2025-12-31"));
+        taskList.add(new Event("Sample event", "2025-06-01", "2025-06-02"));
+        taskList.get(1).markAsDone();
     }
 
     /**
