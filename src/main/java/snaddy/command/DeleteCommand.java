@@ -32,10 +32,12 @@ public class DeleteCommand extends Command {
      */
     @Override
     public String execute(TaskList tasks, Ui ui, Storage storage) throws SnaddyException {
+        assert tasks != null && ui != null && storage != null : "tasks, ui, storage should not be null";
         if (taskIndex < 0 || taskIndex >= tasks.size()) {
             throw new SnaddyException("SAD!!! Task number " + (taskIndex + 1)
                     + " does not exist. You have " + tasks.size() + " task(s) in your list.");
         }
+        assert taskIndex >= 0 && taskIndex < tasks.size() : "task index should be valid after check";
         Task deletedTask = tasks.remove(taskIndex);
         storage.save(tasks.getTasks());
         return ui.showTaskDeleted(deletedTask, tasks.size());

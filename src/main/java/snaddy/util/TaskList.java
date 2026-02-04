@@ -28,6 +28,7 @@ public class TaskList {
      * @param tasks The initial list of tasks.
      */
     public TaskList(ArrayList<Task> tasks) {
+        assert tasks != null : "tasks list should not be null";
         this.tasks = tasks;
     }
 
@@ -37,6 +38,7 @@ public class TaskList {
      * @param task The task to be added.
      */
     public void add(Task task) {
+        assert task != null : "task to add should not be null";
         tasks.add(task);
     }
 
@@ -47,6 +49,7 @@ public class TaskList {
      * @return The task at the specified index.
      */
     public Task get(int index) {
+        assert index >= 0 && index < tasks.size() : "index should be in range [0, size())";
         return tasks.get(index);
     }
 
@@ -57,6 +60,7 @@ public class TaskList {
      * @return The removed task.
      */
     public Task remove(int index) {
+        assert index >= 0 && index < tasks.size() : "index should be in range [0, size())";
         return tasks.remove(index);
     }
 
@@ -87,6 +91,7 @@ public class TaskList {
      * @return A new TaskList containing all matching tasks.
      */
     public TaskList findTasksOnDate(LocalDate date) {
+        assert date != null : "date to search should not be null";
         ArrayList<Task> matchingTasks = new ArrayList<>();
         for (Task task : tasks) {
             if (task instanceof Deadline) {
@@ -114,6 +119,7 @@ public class TaskList {
      * @return A new TaskList containing all matching tasks.
      */
     public TaskList findTasksByKeyword(String keyword) {
+        assert keyword != null : "keyword to search should not be null";
         String normalizedKeyword = keyword.toLowerCase(Locale.ROOT);
         ArrayList<Task> matchingTasks = new ArrayList<>();
         for (Task task : tasks) {

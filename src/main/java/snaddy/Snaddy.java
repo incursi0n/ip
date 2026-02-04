@@ -29,6 +29,7 @@ public class Snaddy {
      * @param filePath The path to the file where tasks are stored.
      */
     public Snaddy(String filePath) {
+        assert filePath != null : "file path should not be null";
         ui = new Ui();
         storage = new Storage(filePath);
         String message = "";
@@ -77,6 +78,7 @@ public class Snaddy {
      * @return The response message to be shown to the user.
      */
     public String getResponse(String input) {
+        assert input != null : "user input should not be null";
         try {
             Command command = Parser.parse(input);
             String response = command.execute(tasks, ui, storage);

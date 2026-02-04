@@ -22,6 +22,7 @@ public class Event extends Task {
      */
     public Event(String description, String from, String to) {
         super(description);
+        assert from != null && to != null : "event from and to date strings should not be null";
         this.from = from;
         this.to = to;
         this.startDate = parseDate(from);
