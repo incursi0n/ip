@@ -25,6 +25,7 @@ public class Storage {
      * @param filePath The path to the file where tasks are stored.
      */
     public Storage(String filePath) {
+        assert filePath != null : "file path should not be null";
         this.filePath = filePath;
     }
 
@@ -62,6 +63,7 @@ public class Storage {
             throw new SnaddyException("Error loading tasks from file: " + e.getMessage());
         }
 
+        assert tasks != null : "loaded task list should not be null";
         return tasks;
     }
 
@@ -104,6 +106,7 @@ public class Storage {
             if (task != null && isDone) {
                 task.markAsDone();
             }
+            assert task == null || task.getDescription() != null : "parsed task should have description";
 
             return task;
         } catch (Exception e) {
@@ -119,6 +122,7 @@ public class Storage {
      * @throws SnaddyException If an error occurs while writing to the file.
      */
     public void save(ArrayList<Task> tasks) throws SnaddyException {
+        assert tasks != null : "task list to save should not be null";
         try {
             File file = new File(filePath);
             File directory = file.getParentFile();
@@ -143,6 +147,7 @@ public class Storage {
      * @return A formatted string representation of the task.
      */
     private String formatTask(Task task) {
+        assert task != null : "task to format should not be null";
         String type;
         String isDone = task.isDone() ? "1" : "0";
         String description = task.getDescription();

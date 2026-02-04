@@ -19,6 +19,7 @@ public class OnCommand extends Command {
      * @param date The date to search for tasks.
      */
     public OnCommand(LocalDate date) {
+        assert date != null : "search date should not be null";
         this.date = date;
     }
 
@@ -32,7 +33,9 @@ public class OnCommand extends Command {
      */
     @Override
     public String execute(TaskList tasks, Ui ui, Storage storage) {
+        assert tasks != null && ui != null : "dependencies should be provided";
         TaskList matchingTasks = tasks.findTasksOnDate(date);
+        assert matchingTasks != null : "findTasksOnDate returns non-null list";
         String dateString = date.format(DateTimeFormatter.ofPattern("MMM d yyyy"));
         return ui.showTasksOnDate(matchingTasks, dateString);
     }
