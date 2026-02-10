@@ -8,14 +8,7 @@ import snaddy.task.Task;
  * Handles user interface operations including displaying messages and reading user input.
  */
 public class Ui {
-    private static final String DIVIDER = "      ____________________________________________________________\n";
-    private static final String LOGO = DIVIDER
-            + "       _________                  .___  .___      \n"
-            + "      /   _____/ ____ _____     __| _/__| _/__.__.\n"
-            + "      \\_____  \\ /    \\\\__  \\   / __ |/ __ <   |  |\n"
-            + "       /        \\   |  \\/ __ \\_/ /_/ / /_/ |\\___  |\n"
-            + "       /_______  /___|  (____  /\\____ \\____ |/ ____|\n"
-            + "               \\/     \\/     \\/      \\/    \\/\\/     \n";
+    private static final String DIVIDER = "      _________________________________________________\n";
 
     private Scanner scanner;
 
@@ -27,10 +20,10 @@ public class Ui {
     }
 
     /**
-     * Displays the welcome message with the application logo.
+     * Displays the welcome message with the application DIVIDER.
      */
     public String showWelcome() {
-        return LOGO + "      Hello! I'm Snaddy\n"
+        return DIVIDER + "      Hello! I'm Snaddy\n"
                 + "      What can I do for you?\n"
                 + DIVIDER;
     }
