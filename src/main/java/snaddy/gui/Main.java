@@ -27,6 +27,8 @@ public class Main extends Application {
             AnchorPane root = fxmlLoader.load();
             Scene scene = new Scene(root);
             stage.setTitle("Snaddy");
+            stage.setMinWidth(350);
+            stage.setMinHeight(400);
             stage.setScene(scene);
 
             MainWindow controller = fxmlLoader.getController();
@@ -38,4 +40,3 @@ public class Main extends Application {
         }
     }
 }
-

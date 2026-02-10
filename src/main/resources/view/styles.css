@@ -1,0 +1,124 @@
+/* Main Window Styles */
+.root {
+    -fx-background-color: #f5f5f5;
+}
+
+/* ScrollPane styling */
+.scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+/* Dialog Container */
+.dialog-container {
+    -fx-padding: 10 10 10 10;
+    -fx-spacing: 10;
+}
+
+/* User Dialog Box - Right aligned, blue background */
+.user-dialog {
+    -fx-background-color: #0078d4;
+    -fx-background-radius: 10 10 0 10;
+    -fx-padding: 10 15 10 15;
+    -fx-max-width: 300;
+}
+
+.user-dialog .label {
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+    -fx-font-family: "Segoe UI", "Arial", sans-serif;
+    -fx-wrap-text: true;
+    -fx-padding: 0;
+}
+
+/* Bot Dialog Box - Left aligned, light gray background */
+.bot-dialog {
+    -fx-background-color: #e8e8e8;
+    -fx-background-radius: 10 10 10 0;
+    -fx-padding: 10 15 10 15;
+    -fx-max-width: 350;
+    -fx-alignment: center-left;
+    -fx-spacing: 8;
+}
+
+.bot-dialog .label {
+    -fx-text-fill: #1f1f1f;
+    -fx-font-size: 13px;
+    -fx-font-family: "Segoe UI", "Arial", sans-serif;
+    -fx-wrap-text: true;
+    -fx-padding: 0;
+}
+
+/* Profile Picture - Circular sad face */
+.profile-picture {
+    -fx-font-size: 32px;
+    -fx-min-width: 40px;
+    -fx-min-height: 40px;
+    -fx-max-width: 40px;
+    -fx-max-height: 40px;
+    -fx-alignment: center;
+    -fx-background-color: #f0f0f0;
+    -fx-background-radius: 20px;
+    -fx-padding: 4px;
+}
+
+/* Error Dialog Box - Red background with border */
+.error-dialog {
+    -fx-background-color: #fff5f5;
+    -fx-background-radius: 10 10 10 0;
+    -fx-border-color: #dc3545;
+    -fx-border-width: 2;
+    -fx-border-radius: 10 10 10 0;
+    -fx-padding: 10 15 10 15;
+    -fx-max-width: 350;
+    -fx-alignment: center-left;
+    -fx-spacing: 8;
+}
+
+.error-dialog .label {
+    -fx-text-fill: #dc3545;
+    -fx-font-size: 13px;
+    -fx-font-family: "Segoe UI", "Arial", sans-serif;
+    -fx-font-weight: bold;
+    -fx-wrap-text: true;
+    -fx-padding: 0;
+}
+
+/* Input Field */
+.text-field {
+    -fx-background-color: white;
+    -fx-border-color: #d0d0d0;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+    -fx-padding: 10 15 10 15;
+    -fx-font-size: 13px;
+    -fx-font-family: "Segoe UI", "Arial", sans-serif;
+}
+
+.text-field:focused {
+    -fx-border-color: #0078d4;
+    -fx-border-width: 2;
+}
+
+/* Send Button */
+.button {
+    -fx-background-color: #0078d4;
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+    -fx-font-family: "Segoe UI", "Arial", sans-serif;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5;
+    -fx-padding: 10 20 10 20;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: #106ebe;
+}
+
+.button:pressed {
+    -fx-background-color: #005a9e;
+}
