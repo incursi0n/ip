@@ -8,6 +8,7 @@ import snaddy.command.Command;
 import snaddy.command.DeleteCommand;
 import snaddy.command.ExitCommand;
 import snaddy.command.FindCommand;
+import snaddy.command.HelpCommand;
 import snaddy.command.ListCommand;
 import snaddy.command.MarkCommand;
 import snaddy.command.OnCommand;
@@ -48,6 +49,8 @@ public class Parser {
             return new ExitCommand();
         case "list":
             return new ListCommand();
+        case "help":
+            return new HelpCommand();
         case "mark":
             return new MarkCommand(parseTaskNumber(arguments));
         case "unmark":

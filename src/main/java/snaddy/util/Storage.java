@@ -39,6 +39,16 @@ public class Storage {
     }
 
     /**
+     * Returns whether the data file already exists at the configured path.
+     * Used to detect first run (no existing data file).
+     *
+     * @return true if the file exists, false otherwise.
+     */
+    public boolean fileExists() {
+        return new File(filePath).exists();
+    }
+
+    /**
      * Loads tasks from the file specified in the file path.
      * Creates the directory and file if they do not exist.
      *
