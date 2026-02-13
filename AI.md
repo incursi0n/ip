@@ -1,10 +1,6 @@
 # AI Tool Usage Log
 
-<<<<<<< HEAD
-This document tracks the use of AI tools (Cursor AI assistant) in this project.
-=======
 This document tracks the use of AI tools ChatGPT in this project.
->>>>>>> branch-A-BetterGui
 
 ## Overview
 
@@ -13,11 +9,7 @@ AI assistance was primarily used for code quality improvements, refactoring, and
 ## Increments and AI Usage
 
 ### A-CodeQuality
-<<<<<<< HEAD
-**Tool:** Cursor AI Assistant
-=======
 **Tool:** ChatGPT
->>>>>>> branch-A-BetterGui
 
 **Tasks:**
 - Renamed single-letter variable `c` to `command` for better readability
@@ -32,11 +24,7 @@ AI assistance was primarily used for code quality improvements, refactoring, and
 - **Quality:** All changes passed Checkstyle and maintained existing functionality
 
 ### Help Command Feature
-<<<<<<< HEAD
-**Tool:** Cursor AI Assistant
-=======
 **Tool:** ChatGPT
->>>>>>> branch-A-BetterGui
 
 **Tasks:**
 - Created `HelpCommand.java` following existing command pattern
@@ -50,11 +38,7 @@ AI assistance was primarily used for code quality improvements, refactoring, and
 - **Note:** Had to fix one line length violation (121 chars) that Checkstyle caught
 
 ### Merge Conflict Resolution
-<<<<<<< HEAD
-**Tool:** Cursor AI Assistant
-=======
 **Tool:** ChatGPT
->>>>>>> branch-A-BetterGui
 
 **Tasks:**
 - Resolved merge conflicts in `Ui.java` (showTasksOnDate, showMatchingTasks)
@@ -66,11 +50,7 @@ AI assistance was primarily used for code quality improvements, refactoring, and
 - **Time saved:** ~15 minutes on manual conflict resolution
 
 ### Assert Statements
-<<<<<<< HEAD
-**Tool:** Cursor AI Assistant
-=======
 **Tool:** ChatGPT
->>>>>>> branch-A-BetterGui
 
 **Tasks:**
 - Added assert statements throughout codebase to document assumptions
@@ -82,11 +62,7 @@ AI assistance was primarily used for code quality improvements, refactoring, and
 - **Time saved:** ~25 minutes on identifying where assertions would be valuable
 
 ### JAR File Generation
-<<<<<<< HEAD
-**Tool:** Cursor AI Assistant
-=======
 **Tool:** ChatGPT
->>>>>>> branch-A-BetterGui
 
 **Tasks:**
 - Added `mergeServiceFiles()` to `shadowJar` configuration for JavaFX bundling
